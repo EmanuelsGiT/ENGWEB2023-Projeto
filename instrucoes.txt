@@ -1,0 +1,7 @@
+instrucoes de arranque
+
+npx express-generator --view=pug
+
+npm i
+
+npm start
