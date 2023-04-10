@@ -1,7 +1,10 @@
 instrucoes de arranque
 
-npx express-generator --view=pug
+BD:
+    - mongoimport -d EngWeb2023 -c Students --file alunos.json --jsonArray
+    - mongosh
 
-npm i
-
-npm start
+Server:
+    - npx express-generator --view=pug
+    - npm i
+    - npm start
