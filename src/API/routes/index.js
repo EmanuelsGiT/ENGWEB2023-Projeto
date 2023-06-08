@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Lista = require('../controllers/compra')
+var Lista = require('../controllers/inquiricao')
 
 // GET: os vários pedidos
 

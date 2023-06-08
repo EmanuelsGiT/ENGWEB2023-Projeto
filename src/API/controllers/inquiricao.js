@@ -1,4 +1,4 @@
-var Lista = require('../models/compra')
+var Lista = require('../models/inquiricao')
 
 // Shop list
 module.exports.list = () => {

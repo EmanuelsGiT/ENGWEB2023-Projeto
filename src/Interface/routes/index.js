@@ -55,6 +55,23 @@ router.post('/login', function(req, res){
   axios.post('http://localhost:8002/users/login', req.body)
     .then(response => {
       res.cookie('token', response.data.token)
+      console.log("Entraste crlh!!!!")
+      res.redirect('/')
+    })
+    .catch(e =>{
+      res.render('error', {error: e, message: "Credenciais inválidas"})
+    })
+})
+
+// Tratamento do Register
+router.get('/register', function(req, res){
+  res.render('registerForm')
+})
+
+router.post('/register', function(req, res){
+  axios.post('http://localhost:8002/users/register', req.body)
+    .then(response => {
+      //res.cookie('token', response.data.token)
       res.redirect('/')
     })
     .catch(e =>{
