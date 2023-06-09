@@ -1,10 +1,9 @@
 var Lista = require('../models/inquiricao')
 
-// Shop list
+//.sort({data:-1})
 module.exports.list = () => {
     return Lista
             .find()
-            .sort({data:-1})
             .then(resposta => {
                 return resposta
             })

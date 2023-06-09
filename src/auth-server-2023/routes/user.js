@@ -25,27 +25,30 @@ router.post('/', auth.verificaAcesso, function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
-//router.post('/register', auth.verificaAcesso, function(req, res) {
 router.post('/register', function(req, res) {
   var d = new Date().toISOString().substring(0,19)
-  userModel.register(new userModel({ username: req.body.username, name: req.body.name, 
-                                      level: req.body.level, active: true, dateCreated: d }), 
-                req.body.password, 
-                function(err, user) {
-                  if (err) 
-                    res.jsonp({error: err, message: "Register error: " + err})
-                  else{
-                    passport.authenticate("local")(req,res,function(){
-                      jwt.sign({ username: req.user.username, level: req.user.level, 
-                        sub: 'aula de EngWeb2023'}, 
-                        "EngWeb2023",
-                        {expiresIn: 3600},
-                        function(e, token) {
-                          if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
-                          else res.status(201).jsonp({token: token})
-                        });
-                    })
-                  }     
+  userModel.register(new userModel({ username: req.body.username, 
+                                     name: req.body.name, 
+                                     level: req.body.level, 
+                                     active: true, 
+                                     dateCreated: d
+                                   }), 
+                                  req.body.password, 
+                                  function(err, user) {
+                                    if (err) 
+                                      res.jsonp({error: err, message: "Register error: " + err})
+                                    else{
+                                      passport.authenticate("local")(req,res,function(){
+                                        jwt.sign({ username: req.user.username, level: req.user.level, 
+                                          sub: 'aula de EngWeb2023'}, 
+                                          "EngWeb2023",
+                                          {expiresIn: 3600},
+                                          function(e, token) {
+                                            if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+                                            else res.status(201).jsonp({token: token})
+                                          });
+                                      })
+                                    }     
   })
 })
   
@@ -55,6 +58,7 @@ router.post('/login', passport.authenticate('local'), function(req, res){
     "EngWeb2023",
     {expiresIn: 3600},
     function(e, token) {
+      console.log(token)
       if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
       else res.status(201).jsonp({token: token})
 });
