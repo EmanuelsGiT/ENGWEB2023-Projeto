@@ -6,21 +6,22 @@ block content
     .w3-container
       table.w3-table-all
         tr
-          th Designação
-          th Data
-          th Nº Produtos
+          th ID
+          th Username
+          th Scope Content
           th Operações
-        
-        each l in lists
+        each i in inquiricoes
           tr
-            td= l.designacao
-            td= l.data
-            td= l.produtos.length
+            td= i._id
+            td= i.Username
+            td= i.ScopeContent
+            //td= l.produtos.length
             td
               button.w3-btn.w3-round.w3-indigo.w3-margin-right 
                 a(href="#") C
               button.w3-btn.w3-round.w3-indigo.w3-margin-right  
-                a(href="/retrieveList/" + l._id) R
+                //a(href="/retrieveList/" + l._id) R
+                a(href="#") R
               button.w3-btn.w3-round.w3-indigo.w3-margin-right  
                 a(href="#") U 
               button.w3-btn.w3-round.w3-indigo.w3-margin-right  

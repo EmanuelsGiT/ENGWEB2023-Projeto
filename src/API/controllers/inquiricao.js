@@ -1,8 +1,8 @@
-var Lista = require('../models/inquiricao')
+var Inquiricao = require('../models/inquiricao')
 
 //.sort({data:-1})
 module.exports.list = () => {
-    return Lista
+    return Inquiricao
             .find()
             .then(resposta => {
                 return resposta
@@ -12,8 +12,8 @@ module.exports.list = () => {
             })
 }
 
-module.exports.getLista = id => {
-    return Lista.findOne({_id:id})
+module.exports.getInquiricaoID = id => {
+    return Inquiricao.findOne({_id:id})
             .then(resposta => {
                 return resposta
             })
@@ -22,8 +22,8 @@ module.exports.getLista = id => {
             })
 }
 
-module.exports.addLista = l => {
-    return Lista.create(l)
+module.exports.getInquiricaoUsername = username => {
+    return Inquiricao.findOne({Username:username})
             .then(resposta => {
                 return resposta
             })
@@ -32,8 +32,8 @@ module.exports.addLista = l => {
             })
 }
 
-module.exports.updateLista = l => {
-    return Lista.updateOne({_id:l._id}, l)
+module.exports.addInquiricao = l => {
+    return Inquiricao.create(l)
             .then(resposta => {
                 return resposta
             })
@@ -42,8 +42,8 @@ module.exports.updateLista = l => {
             })
 }
 
-module.exports.deleteLista = id => {
-    return Lista.deleteOne({_id:id})
+module.exports.updateInquiricao = l => {
+    return Inquiricao.updateOne({_id:l._id}, l)
             .then(resposta => {
                 return resposta
             })
@@ -52,8 +52,8 @@ module.exports.deleteLista = id => {
             })
 }
 
-module.exports.categorias = () => {
-    return Lista.distinct("produtos.categoria")
+module.exports.deleteInquiricao = id => {
+    return Inquiricao.deleteOne({_id:id})
             .then(resposta => {
                 return resposta
             })
@@ -62,34 +62,44 @@ module.exports.categorias = () => {
             })
 }
 
-module.exports.prodsByCateg = (id) => {
-    return Lista.aggregate([{$unwind: "$produtos"}, {$match: {"produtos.categoria": id}}, {$project: {"produtos.designacao":1, _id:0}}])
-            .then(resposta => {
-                return resposta
-            })
-            .catch(erro => {
-                return erro
-            })
-}
-
-module.exports.addProduto = (id, prod) => {
-    return Lista.updateOne({_id:id}, 
-                { $push: { "produtos": prod } })
-            .then(resposta => {
-                return resposta
-            })
-            .catch(erro => {
-                return erro
-            })
-}
-
-module.exports.deleteProduto = (id, prod) => {
-    return Lista.updateOne({ "_id": id }, 
-                { $pull: {"produtos": {_id: prod}}})
-            .then(resposta => {
-                return resposta
-            })
-            .catch(erro => {
-                return erro
-            })
-}
+//module.exports.categorias = () => {
+//    return Inquiricao.distinct("produtos.categoria")
+//            .then(resposta => {
+//                return resposta
+//            })
+//            .catch(erro => {
+//                return erro
+//            })
+//}
+//
+//module.exports.prodsByCateg = (id) => {
+//    return Inquiricao.aggregate([{$unwind: "$produtos"}, {$match: {"produtos.categoria": id}}, {$project: {"produtos.designacao":1, _id:0}}])
+//            .then(resposta => {
+//                return resposta
+//            })
+//            .catch(erro => {
+//                return erro
+//            })
+//}
+//
+//module.exports.addProduto = (id, prod) => {
+//    return Inquiricao.updateOne({_id:id}, 
+//                { $push: { "produtos": prod } })
+//            .then(resposta => {
+//                return resposta
+//            })
+//            .catch(erro => {
+//                return erro
+//            })
+//}
+//
+//module.exports.deleteProduto = (id, prod) => {
+//    return Inquiricao.updateOne({ "_id": id }, 
+//                { $pull: {"produtos": {_id: prod}}})
+//            .then(resposta => {
+//                return resposta
+//            })
+//            .catch(erro => {
+//                return erro
+//            })
+//}

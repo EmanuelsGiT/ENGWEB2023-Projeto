@@ -14,9 +14,10 @@ router.get('/retrieveAll', function(req, res) {
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
   
-  axios.get(env.apiAccessPoint+"/listas?token=" + token)
+  axios.get(env.apiAccessPoint+"/inquiricoes?token=" + token)
+ // axios.get(env.apiAccessPoint+"/inquiricoes")
     .then(response => {
-      res.render('listas', { lists: response.data, d: data });
+      res.render('inquiricoes', { inquiricoes: response.data, d: data });
     })
     .catch(err => {
       res.render('error', {error: err})
@@ -25,9 +26,9 @@ router.get('/retrieveAll', function(req, res) {
 
 router.get('/retrieveList/:id', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
-  axios.get(env.apiAccessPoint+"/listas/" + req.params.id)
+  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id)
     .then(response => {
-      res.render('listaCompras', { list: response.data, d: data });
+      res.render('inquiricao', { inquiricao: response.data, d: data });
     })
     .catch(err => {
       res.render('error', {error: err})
@@ -56,7 +57,7 @@ router.post('/login', function(req, res){
     .then(response => {
       res.cookie('token', response.data.token)
       console.log("Entraste crlh!!!!")
-      res.redirect('/')
+      res.redirect('/retrieveAll')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})
