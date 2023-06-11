@@ -1,13 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
 var logger = require('morgan');
-
+const session = require('express-session');
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
-
 var mongoose = require('mongoose');
+require('dotenv').config();
 
-mongoose.connect('mongodb://127.0.0.1/authProject', 
+mongoose.connect(process.env.MONGO_URI, 
       { useNewUrlParser: true,
         useUnifiedTopology: true,
         serverSelectionTimeoutMS: 5000});
@@ -25,6 +25,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 var usersRouter = require('./routes/user');
+const authRouter = require('./routes/google_auth');
+const facebookRouter = require('./routes/facebook_auth');
 
 var app = express();
 
@@ -36,6 +38,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/users', usersRouter);
+app.use('/auth/google', authRouter);
+app.use('/auth/facebook', facebookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

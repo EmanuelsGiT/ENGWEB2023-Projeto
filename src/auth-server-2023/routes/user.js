@@ -27,8 +27,10 @@ router.post('/', auth.verificaAcesso, function(req, res){
 
 router.post('/register', function(req, res) {
   var d = new Date().toISOString().substring(0,19)
-  userModel.register(new userModel({ username: req.body.username, 
+  userModel.register(new userModel({ email: req.body.email,
+                                     username: req.body.username, 
                                      name: req.body.name, 
+                                     filiacao: req.body.filiacao,
                                      level: req.body.level, 
                                      active: true, 
                                      dateCreated: d

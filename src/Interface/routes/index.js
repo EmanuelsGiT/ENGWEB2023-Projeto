@@ -49,7 +49,7 @@ router.get('/lista/:idLista/deleteProduto/:idProd', function(req, res) {
 
 // Tratamento do Login
 router.get('/login', function(req, res){
-  res.render('loginForm')
+  res.render('login')
 })
 
 router.post('/login', function(req, res){
@@ -66,7 +66,7 @@ router.post('/login', function(req, res){
 
 // Tratamento do Register
 router.get('/register', function(req, res){
-  res.render('registerForm')
+  res.render('register')
 })
 
 router.post('/register', function(req, res){
@@ -74,6 +74,31 @@ router.post('/register', function(req, res){
     .then(response => {
       //res.cookie('token', response.data.token)
       res.redirect('/')
+    })
+    .catch(e =>{
+      res.render('error', {error: e, message: "Credenciais inválidas"})
+    })
+})
+
+// facebook
+router.get('/login/facebook', function(req, res){
+  axios.get('http://localhost:8002/auth/facebook')
+    .then(response => {
+      res.cookie('token', response.data.token)
+      console.log("Entraste crlh!!!!")
+      res.redirect('/retrieveAll')
+    })
+    .catch(e =>{
+      res.render('error', {error: e, message: "Credenciais inválidas"})
+    })
+})
+
+// google
+router.get('/login/google', function(req, res){
+  axios.get('http://localhost:8002/auth/google')
+    .then(response => {
+      console.log("Entraste crlh!!!!")
+      res.redirect('/retrieveAll')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})
