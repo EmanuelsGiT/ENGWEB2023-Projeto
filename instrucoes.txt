@@ -4,6 +4,7 @@ BD:
     API:
     - mudanca de CSV para JSON e ID para _id (converter.py)
     - mongoimport -d Project -c inquiricoes --file PT-UM-ADB-DIO-MAB-006-convertido.json --jsonArray
+    - mongoimport -d Project -c posts --file posts.json --jsonArray
 
 
     Auth:

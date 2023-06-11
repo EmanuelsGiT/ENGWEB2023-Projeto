@@ -1,8 +1,8 @@
-var Inquiricao = require('../models/inquiricao')
+var Post = require('../models/posts')
 
 //.sort({data:-1})
-module.exports.getInquiricoes = () => {
-    return Inquiricao
+module.exports.getPosts = () => {
+    return Post
             .find()
             .then(resposta => {
                 return resposta
@@ -12,8 +12,8 @@ module.exports.getInquiricoes = () => {
             })
 }
 
-module.exports.getInquiricaoID = id => {
-    return Inquiricao.findOne({_id:id})
+module.exports.getPostID = id => {
+    return Post.findOne({_id:id})
             .then(resposta => {
                 return resposta
             })
@@ -22,8 +22,8 @@ module.exports.getInquiricaoID = id => {
             })
 }
 
-module.exports.getInquiricaoUsername = username => {
-    return Inquiricao.findOne({Username:username})
+module.exports.addPost = p => {
+    return Post.create(p)
             .then(resposta => {
                 return resposta
             })
@@ -32,8 +32,9 @@ module.exports.getInquiricaoUsername = username => {
             })
 }
 
-module.exports.addInquiricao = l => {
-    return Inquiricao.create(l)
+module.exports.addComent = (id, com) => {
+    return Post.updateOne({_id:id}, 
+                { $push: { "coments": com } })
             .then(resposta => {
                 return resposta
             })
@@ -42,8 +43,8 @@ module.exports.addInquiricao = l => {
             })
 }
 
-module.exports.updateInquiricao = l => {
-    return Inquiricao.updateOne({_id:l._id}, l)
+module.exports.updatePost = p => {
+    return Post.updateOne({_id:p._id}, p)
             .then(resposta => {
                 return resposta
             })
@@ -52,8 +53,8 @@ module.exports.updateInquiricao = l => {
             })
 }
 
-module.exports.deleteInquiricao = id => {
-    return Inquiricao.deleteOne({_id:id})
+module.exports.deletePost = id => {
+    return Post.deleteOne({_id:id})
             .then(resposta => {
                 return resposta
             })
@@ -63,7 +64,7 @@ module.exports.deleteInquiricao = id => {
 }
 
 //module.exports.categorias = () => {
-//    return Inquiricao.distinct("produtos.categoria")
+//    return Post.distinct("produtos.categoria")
 //            .then(resposta => {
 //                return resposta
 //            })
@@ -73,7 +74,7 @@ module.exports.deleteInquiricao = id => {
 //}
 //
 //module.exports.prodsByCateg = (id) => {
-//    return Inquiricao.aggregate([{$unwind: "$produtos"}, {$match: {"produtos.categoria": id}}, {$project: {"produtos.designacao":1, _id:0}}])
+//    return Post.aggregate([{$unwind: "$produtos"}, {$match: {"produtos.categoria": id}}, {$project: {"produtos.designacao":1, _id:0}}])
 //            .then(resposta => {
 //                return resposta
 //            })
@@ -83,7 +84,7 @@ module.exports.deleteInquiricao = id => {
 //}
 //
 //module.exports.addProduto = (id, prod) => {
-//    return Inquiricao.updateOne({_id:id}, 
+//    return Post.updateOne({_id:id}, 
 //                { $push: { "produtos": prod } })
 //            .then(resposta => {
 //                return resposta
@@ -94,7 +95,7 @@ module.exports.deleteInquiricao = id => {
 //}
 //
 //module.exports.deleteProduto = (id, prod) => {
-//    return Inquiricao.updateOne({ "_id": id }, 
+//    return Post.updateOne({ "_id": id }, 
 //                { $pull: {"produtos": {_id: prod}}})
 //            .then(resposta => {
 //                return resposta
