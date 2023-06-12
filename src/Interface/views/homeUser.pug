@@ -43,17 +43,18 @@ head
         option(value='data') Data
       input.w3-input.w3-bar-item(name='search', type='text', placeholder='Search')
 // Main content: shift it to the right by 250 pixels when the sidebar is visible
-.w3-main.w3-center
+.w3-main
   .w3-content
     each post in posts
       .w3-row.w3-padding-64
         a(href="/home/post", style="text-decoration: none;")  
           .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
-            h1.w3-text-teal #{post.nome}
-            p
+            h1.w3-text-teal.w3-margin-left #{post.nome}
+              .w3-right.w3-margin-right #{post.data} 
+            p.w3-margin-left
               | #{post.descricao}
               
-  footer.w3-bottom
+  footer.w3-bottom.w3-center
     .w3-container.w3-theme-l1
       p
         | Powered by 
