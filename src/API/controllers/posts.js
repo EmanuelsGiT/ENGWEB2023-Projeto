@@ -15,8 +15,21 @@ module.exports.getPosts = () => {
 module.exports.getPostsPage = pageIndex => {
     return Post
             .find()
+            .sort({data:-1})
             .skip((pageIndex-1) * 10)
             .limit(10)
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
+module.exports.getPostsLen = () => {
+    return Post
+            .find()
+            .count()
             .then(resposta => {
                 return resposta
             })
