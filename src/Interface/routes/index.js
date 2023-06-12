@@ -32,7 +32,7 @@ router.get('/retrieveAllPosts', function(req, res) {
   
   axios.get(env.apiAccessPoint+"/posts?token=" + token)
     .then(response => {
-      res.render('posts', { posts: response.data, d: data });
+      res.render('homeUser', { posts: response.data, d: data });
     })
     .catch(err => {
       res.render('error', {error: err})
@@ -72,7 +72,7 @@ router.post('/login', function(req, res){
     .then(response => {
       res.cookie('token', response.data.token)
       console.log("Entraste crlh!!!!")
-      res.redirect('/retrieveAll')
+      res.redirect('/retrieveAllPosts')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})

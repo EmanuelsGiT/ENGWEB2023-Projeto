@@ -1,0 +1,83 @@
+doctype html
+head
+  title W3.CSS Template
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' href='https://www.w3schools.com/w3css/4/w3.css')
+  link(rel='stylesheet' href='https://www.w3schools.com/lib/w3-theme-black.css')
+  link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet' href='stylesheet/css/login')
+  style.
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Open Sans", sans-serif;}
+    .w3-sidebar {
+    z-index: 3;
+    width: 250px;
+    top: 43px;
+    bottom: 0;
+    height: inherit;
+    }
+  style.
+    body {
+      background-image: url("../../padre.jpg");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: "Open Sans", sans-serif;
+      color: #333333;
+    }
+    .post-box {
+      background: rgba(255, 255, 255, 0.6784313725);
+    }
+
+// Navbar
+.w3-top
+  .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
+    a.w3-bar-item.w3-button.w3-theme-l1(href='/home') Inquirições de Génere
+    a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') Perfil
+    a.w3-bar-item.w3-button.w3-hide-small.w3-hide-medium.w3-hover-white.w3-right(href='#') Log out
+    form.w3-bar-item(action='#' style='margin-top: 2px')
+      select.w3-select.w3-bar-item(name='searchType')
+        option(value='nome') Nome
+        option(value='lugar') Lugar
+        option(value='data') Data
+      input.w3-input.w3-bar-item(name='search', type='text', placeholder='Search')
+// Main content: shift it to the right by 250 pixels when the sidebar is visible
+.w3-main.w3-center
+  .w3-content
+    each post in posts
+      .w3-row.w3-padding-64
+        a(href="/home/post", style="text-decoration: none;")  
+          .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
+            h1.w3-text-teal #{post.nome}
+            p
+              | #{post.descricao}
+              
+  footer.w3-bottom
+    .w3-container.w3-theme-l1
+      p
+        | Powered by 
+        a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+
+
+  // END MAIN
+script.
+  // Get the Sidebar
+  var mySidebar = document.getElementById("mySidebar");
+  // Get the DIV with overlay effect
+  var overlayBg = document.getElementById("myOverlay");
+  // Toggle between showing and hiding the sidebar, and add overlay effect
+  function w3_open() {
+    if (mySidebar.style.display === 'block') {
+      mySidebar.style.display = 'none';
+      overlayBg.style.display = "none";
+    } else {
+      mySidebar.style.display = 'block';
+      overlayBg.style.display = "block";
+    }
+  }
+  // Close the sidebar with the close button
+  function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+  }
