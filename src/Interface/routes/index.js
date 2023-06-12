@@ -33,12 +33,11 @@ router.get('/home', function(req, res) {
   axios.get(env.apiAccessPoint+"/posts?page=" + req.query.page + "&token=" + token)
     .then(response => {    
       const currentPage = parseInt(req.query.page) || 1;
-      const prevPage = currentPage > 1 ? currentPage - 1 : null;
-      const nextPage = currentPage  + 1 ;
-      res.render('homeUser', { posts: response.data, 
+      const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+      const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
+      res.render('homeUser', { posts: response.data.posts, 
                                 prevIndex: prevPage, 
                                 nextIndex: nextPage });
-      //res.render('homeUser', { posts: response.data, d: data });
     })
     .catch(err => {
       res.render('error', {error: err})

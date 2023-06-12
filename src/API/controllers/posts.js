@@ -26,6 +26,18 @@ module.exports.getPostsPage = pageIndex => {
             })
 }
 
+module.exports.getPostsLen = () => {
+    return Post
+            .find()
+            .count()
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.getPostID = id => {
     return Post.findOne({_id:id})
             .then(resposta => {

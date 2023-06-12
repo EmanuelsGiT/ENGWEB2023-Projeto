@@ -83,8 +83,15 @@ router.post('/api/inquiricoes', function(req, res) {
 
 router.get('/api/posts', function(req, res, next) {
   Posts.getPostsPage(parseInt(req.query.page))
-    .then(posts => {
-      res.jsonp(posts)
+    .then(posts_ => {
+      Posts.getPostsLen()
+        .then(len => {
+          const numPages_ = Math.ceil(len / 10);
+          res.jsonp({ posts: posts_, numPages: numPages_ })
+        })
+        .catch(erro => {
+          res.render('error', {error: erro, message: "Erro na obtenção da len dos posts"})
+        })
     })
     .catch(erro => {
       res.render('error', {error: erro, message: "Erro na obtenção dos posts"})
