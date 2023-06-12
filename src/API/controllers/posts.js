@@ -41,7 +41,7 @@ module.exports.getPostsLen = () => {
 }
 
 module.exports.getPostID = id => {
-    return Post.findOne({"_id": ObejctId(id)})
+    return Post.findOne({_id:id})
             .then(resposta => {
                 return resposta
             })

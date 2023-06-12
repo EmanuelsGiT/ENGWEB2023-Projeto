@@ -29,9 +29,9 @@ html
                 .w3-right.w3-margin-right #{post.data} 
                 p.w3-margin-left #{post.descricao}
                 .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
-                  //each comment in post.coments 
-                    p.w3-margin-left #{comment} 
-
+                  each comment in post.coments 
+                    p.w3-margin-left user: #{comment.username} 
+                    p.w3-margin-left #{comment.descricao}
       .w3-bottom
         footer.w3-center
           .w3-container.w3-theme-l1
