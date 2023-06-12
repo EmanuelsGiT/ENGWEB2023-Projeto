@@ -44,6 +44,18 @@ router.get('/home', function(req, res) {
     })
 });
 
+router.get('/home/post/:id', function(req, res) {
+  var data = new Date().toISOString().substring(0,19)
+  axios.get(env.apiAccessPoint+"/posts/" + req.params.id)
+    .then(response => {
+      console.log(response.data);
+      res.render('post', { post: response.data, d: data });
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+});
+
 //router.get('/retrieveList/:id', function(req, res) {
 //  var data = new Date().toISOString().substring(0,19)
 //  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id)
@@ -85,21 +97,10 @@ router.post('/login', function(req, res){
 })
 
 // Tratamento do Logout
-//router.get('/logout', function(req, res){
-//  res.clearCookie(req.query.token); 
-//  console.log("limpo")
-//  res.render('login')
-//})
-
-router.post('/logout', function(req, res){
-  axios.post('http://localhost:8002/users/logout', req.body)
-    .then(response => {
-      console.log("limpo")
-      res.redirect('/')
-    })
-    .catch(e =>{
-      res.render('error', {error: e, message: "Credenciais inválidas"})
-    })
+//router.get('/logout', verificaToken, (req, res) => {
+router.get('/logout', (req, res) => {
+  res.cookie('token', "revogado.revogado.revogado")
+  res.redirect('/')
 })
 
 // Tratamento do Register

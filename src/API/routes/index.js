@@ -98,6 +98,16 @@ router.get('/api/posts', function(req, res, next) {
     })
 });
 
+router.get('/api/posts/:id', function(req, res) {
+  Posts.getPostID(req.params.id)
+    .then(post => {
+      res.jsonp(post)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na obtenção do post"})
+    })
+});
+
 //router.get('/api/categorias', function(req, res) {
 //  Lista.categorias()
 //    .then(lista => {
