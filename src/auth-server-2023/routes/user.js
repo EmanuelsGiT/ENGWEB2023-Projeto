@@ -63,8 +63,15 @@ router.post('/login', passport.authenticate('local'), function(req, res){
       console.log(token)
       if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
       else res.status(201).jsonp({token: token})
-});
+  });
 })
+
+router.post('/logout', function(req, res) {
+  res.clearCookie(req.query.token); 
+  console.log("query.token " + req.query.token) 
+  console.log("body.token" + req.body.token)
+  res.status(200).send('Logout bem-sucedido');
+});
 
 router.put('/:id', auth.verificaAcesso, function(req, res) {
   User.updateUser(req.params.id, req.body)
