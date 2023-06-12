@@ -15,6 +15,7 @@ module.exports.getPosts = () => {
 module.exports.getPostsPage = pageIndex => {
     return Post
             .find()
+            .sort({data:-1})
             .skip((pageIndex-1) * 10)
             .limit(10)
             .then(resposta => {
