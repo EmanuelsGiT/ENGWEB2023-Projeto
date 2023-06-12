@@ -8,20 +8,38 @@ router.get('/', function(req, res){
   res.render('login')
 })
 
-router.get('/retrieveAll', function(req, res) {
+router.get('/home/inquiricoes', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
+  const currentPage = parseInt(req.query.page) || 1;
+  const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   
-  axios.get(env.apiAccessPoint+"/inquiricoes?token=" + token)
- // axios.get(env.apiAccessPoint+"/inquiricoes")
-    .then(response => {
-      res.render('inquiricoes', { inquiricoes: response.data, d: data });
-    })
-    .catch(err => {
-      res.render('error', {error: err})
-    })
+  
+  if(req.query.searchType && req.query.search) {
+    axios.get(env.apiAccessPoint+"/inquiricoes?searchType=" + req.query.searchType + "&search=" + req.query.search + "&page="+ req.query.page +"&token=" + token)
+      .then(response => {
+        const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
+        res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
+                                        prevIndex: prevPage, 
+                                        nextIndex: nextPage });
+      })
+      .catch(err => {
+        res.render('error', {error: err})
+      })
+  } else {
+    axios.get(env.apiAccessPoint+"/inquiricoes?page="+ req.query.page +"&token=" + token)
+      .then(response => {
+        const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
+        res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
+                                        prevIndex: prevPage, 
+                                        nextIndex: nextPage });
+      })
+      .catch(err => {
+        res.render('error', {error: err})
+      })   
+  }
 });
 
 router.get('/home', function(req, res) {
