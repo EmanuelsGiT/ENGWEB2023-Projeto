@@ -82,7 +82,7 @@ router.post('/api/inquiricoes', function(req, res) {
 })
 
 router.get('/api/posts', function(req, res, next) {
-  Posts.getPosts()
+  Posts.getPostsPage(parseInt(req.query.page))
     .then(posts => {
       res.jsonp(posts)
     })

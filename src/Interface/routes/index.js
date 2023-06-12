@@ -5,7 +5,7 @@ var axios = require('axios')
 
 /* GET home page. */
 router.get('/', function(req, res){
-  res.render('index')
+  res.render('login')
 })
 
 router.get('/retrieveAll', function(req, res) {
@@ -24,15 +24,21 @@ router.get('/retrieveAll', function(req, res) {
     })
 });
 
-router.get('/retrieveAllPosts', function(req, res) {
+router.get('/home', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
   
-  axios.get(env.apiAccessPoint+"/posts?token=" + token)
-    .then(response => {
-      res.render('homeUser', { posts: response.data, d: data });
+  axios.get(env.apiAccessPoint+"/posts?page=" + req.query.page + "&token=" + token)
+    .then(response => {    
+      const currentPage = parseInt(req.query.page) || 1;
+      const prevPage = currentPage > 1 ? currentPage - 1 : null;
+      const nextPage = currentPage  + 1 ;
+      res.render('homeUser', { posts: response.data, 
+                                prevIndex: prevPage, 
+                                nextIndex: nextPage });
+      //res.render('homeUser', { posts: response.data, d: data });
     })
     .catch(err => {
       res.render('error', {error: err})
@@ -72,7 +78,7 @@ router.post('/login', function(req, res){
     .then(response => {
       res.cookie('token', response.data.token)
       console.log("Entraste crlh!!!!")
-      res.redirect('/retrieveAllPosts')
+      res.redirect('/home')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})

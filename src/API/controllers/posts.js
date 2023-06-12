@@ -12,6 +12,19 @@ module.exports.getPosts = () => {
             })
 }
 
+module.exports.getPostsPage = pageIndex => {
+    return Post
+            .find()
+            .skip((pageIndex-1) * 10)
+            .limit(10)
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.getPostID = id => {
     return Post.findOne({_id:id})
             .then(resposta => {
