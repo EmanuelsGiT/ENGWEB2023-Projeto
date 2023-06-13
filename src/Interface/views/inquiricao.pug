@@ -8,7 +8,6 @@ html
     link(rel='stylesheet' href='/stylesheets/w3.css')
     link(rel='stylesheet' href='/stylesheets/home.css')
   body
-    .w3-main
       .w3-top.w3-display-topmiddle
         .w3-bar.w3-theme.w3-left-align.w3-large.w3-padding-16
           a.w3-bar-item.w3-button.w3-amber.w3-margin-left(href='/home') Inquirições de Génere
@@ -21,102 +20,32 @@ html
               option(value='lugar') Lugar
               option(value='data') Data
             input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='Search')
-      h5.w3-padding-top-64(style="font-size: 5vmax;") Inquirição
-      .w3-content
-        .w3-row
-          a(href="/home/inquiricao/" + inquiricao._id, style="text-decoration: none;")
-            .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
-              //h1.w3-text-teal.w3-margin-left #{inquiricao.nome}
-              //.w3-right.w3-margin-right #{inquiricao.data} 
-              p.w3-margin-left #{inquiricao.CompleteUnitId}
-              p.w3-margin-left #{inquiricao.UnitId}
-              p.w3-margin-left #{inquiricao.RepositoryCode}
-              p.w3-margin-left #{inquiricao.CountryCode}
-              p.w3-margin-left #{inquiricao.UnitTitleType}
-              p.w3-margin-left #{inquiricao.UnitTitle}
-              p.w3-margin-left #{inquiricao.AlternativeTitle}
-              p.w3-margin-left #{inquiricao.NormalizedFormsName}
-              p.w3-margin-left #{inquiricao.OtherFormsName}
-              p.w3-margin-left #{inquiricao.UnitDateInitial}
-              p.w3-margin-left #{inquiricao.UnitDateFinal}
-              p.w3-margin-left #{inquiricao.UnitDateInitialCertainty}
-              p.w3-margin-left #{inquiricao.UnitDateFinalCertainty}
-              p.w3-margin-left #{inquiricao.AllowUnitDatesInference}
-              p.w3-margin-left #{inquiricao.AccumulationDates}
-              p.w3-margin-left #{inquiricao.UnitDateBulk}
-              p.w3-margin-left #{inquiricao.UnitDateNotes}
-              p.w3-margin-left #{inquiricao.Dimensions}
-              p.w3-margin-left #{inquiricao.AllowExtentsInference}
-              p.w3-margin-left #{inquiricao.Repository}
-              p.w3-margin-left #{inquiricao.Producer}
-              p.w3-margin-left #{inquiricao.Author}
-              p.w3-margin-left #{inquiricao.MaterialAuthor}
-              p.w3-margin-left #{inquiricao.Contributor}
-              p.w3-margin-left #{inquiricao.Recipient}
-              p.w3-margin-left #{inquiricao.BiogHist}
-              p.w3-margin-left #{inquiricao.GeogName}
-              p.w3-margin-left #{inquiricao.LegalStatus}
-              p.w3-margin-left #{inquiricao.Functions}
-              p.w3-margin-left #{inquiricao.Authorities}
-              p.w3-margin-left #{inquiricao.InternalStructure}
-              p.w3-margin-left #{inquiricao.GeneralContext}
-              p.w3-margin-left #{inquiricao.CustodHist}
-              p.w3-margin-left #{inquiricao.AcqInfo}
-              p.w3-margin-left #{inquiricao.Classifier}
-              p.w3-margin-left #{inquiricao.ScopeContent}
-              p.w3-margin-left #{inquiricao.Terms}
-              p.w3-margin-left #{inquiricao.DocumentalTradition}
-              p.w3-margin-left #{inquiricao.DocumentalTypology}
-              p.w3-margin-left #{inquiricao.Marks}
-              p.w3-margin-left #{inquiricao.Monograms}
-              p.w3-margin-left #{inquiricao.Stamps}
-              p.w3-margin-left #{inquiricao.Inscriptions}
-              p.w3-margin-left #{inquiricao.Signatures}
-              p.w3-margin-left #{inquiricao.Appraisal}
-              p.w3-margin-left #{inquiricao.AppraisalElimination}
-              p.w3-margin-left #{inquiricao.AppraisalEliminationDate}
-              p.w3-margin-left #{inquiricao.Accruals}
-              p.w3-margin-left #{inquiricao.Arrangement}
-              p.w3-margin-left #{inquiricao.AccessRestrict}
-              p.w3-margin-left #{inquiricao.UseRestrict}
-              p.w3-margin-left #{inquiricao.PhysLoc}
-              p.w3-margin-left #{inquiricao.OriginalNumbering}
-              p.w3-margin-left #{inquiricao.PreviousLoc}
-              p.w3-margin-left #{inquiricao.LangMaterial}
-              p.w3-margin-left #{inquiricao.PhysTech}
-              p.w3-margin-left #{inquiricao.OtherFindAid}
-              p.w3-margin-left #{inquiricao.ContainerTypeTerm}
-              p.w3-margin-left #{inquiricao.OriginalsLoc}
-              p.w3-margin-left #{inquiricao.AltFormAvail}
-              p.w3-margin-left #{inquiricao.RelatedMaterial}
-              p.w3-margin-left #{inquiricao.Note}
-              p.w3-margin-left #{inquiricao.AllowTextualContentInference}
-              p.w3-margin-left #{inquiricao.TextualContent}
-              p.w3-margin-left #{inquiricao.RetentionDisposalDocumentState}
-              p.w3-margin-left #{inquiricao.ApplySelectionTable}
-              p.w3-margin-left #{inquiricao.RetentionDisposalPolicy}
-              p.w3-margin-left #{inquiricao.RetentionDisposalReference}
-              p.w3-margin-left #{inquiricao.RetentionDisposalClassification}
-              p.w3-margin-left #{inquiricao.RetentionDisposalPeriod}
-              p.w3-margin-left #{inquiricao.RetentionDisposalApplyDate}
-              p.w3-margin-left #{inquiricao.RetentionDisposalFinalDestination}
-              p.w3-margin-left #{inquiricao.RetentionDisposalObservations}
-              p.w3-margin-left #{inquiricao.DescRules}
-              p.w3-margin-left #{inquiricao.Revised}
-              p.w3-margin-left #{inquiricao.Published}
-              p.w3-margin-left #{inquiricao.Available}
-              p.w3-margin-left #{inquiricao.Highlighted}
-              p.w3-margin-left #{inquiricao.Creator}
-              p.w3-margin-left #{inquiricao.Created}
-              p.w3-margin-left #{inquiricao.Username}
-              p.w3-margin-left #{inquiricao.ProcessInfoDate}
-              p.w3-margin-left #{inquiricao.OtherDescriptiveData}
-              p.w3-margin-left #{inquiricao.ProcessInfo}
+      
+      .w3-row
+        .div(class="w3-col m1").w3-padding-top-64
+        .div(class="w3-col m10").w3-container.w3-padding-top-64.post-box.w3-margin-left
+          .w3-padding-top-32.div(style="font-size: 0.9vmax;")
+            .w3-border.w3-border-black.w3-margin-left.w3-container.div(style='background: rgba(219, 219, 219, 0.5);')
+                  p.w3-topleft Record
+                  h5(style="font-size: 3vmax; font-weight:bold") Description Record
+                  p
+                    span Record
+                    span(style='letter-spacing: 16vmax;')  
+                    span
+                      | #{inquiricao.CompleteUnitId} - #{inquiricao.UnitTitle}
+                  //h1.w3-text-teal.w3-margin-left #{inquiricao.nome}
+                  //.w3-right.w3-margin-right #{inquiricao.data} 
+          
+            table.w3-margin-left
+              - var values = ['DescriptionLevel','EntityType','UnitId','RepositoryCode','CountryCode','UnitTitleType','AlternativeTitle','NormalizedFormsName', 'OtherFormsName', 'UnitDateInitial', 'UnitDateFinal', 'UnitDateInitialCertainty','UnitDateFinalCertainty', 'AllowUnitDatesInference', 'AccumulationDates', 'UnitDateBulk', 'UnitDateNotes','Dimensions', 'AllowExtentsInference', 'Repository', 'Producer', 'Author', 'MaterialAuthor', 'Contributor','Recipient', 'BiogHist', 'GeogName', 'LegalStatus', 'Functions', 'Authorities', 'InternalStructure','GeneralContext', 'CustodHist', 'AcqInfo', 'Classifier', 'ScopeContent', 'Terms', 'DocumentalTradition','DocumentalTypology', 'Marks', 'Monograms', 'Stamps', 'Inscriptions', 'Signatures', 'Appraisal','AppraisalElimination', 'AppraisalEliminationDate', 'Accruals', 'Arrangement', 'AccessRestrict','UseRestrict', 'PhysLoc', 'OriginalNumbering', 'PreviousLoc', 'LangMaterial', 'PhysTech', 'OtherFindAid','ContainerTypeTerm', 'OriginalsLoc', 'AltFormAvail', 'RelatedMaterial', 'Note', 'AllowTextualContentInference','TextualContent', 'RetentionDisposalDocumentState', 'ApplySelectionTable', 'RetentionDisposalPolicy','RetentionDisposalReference', 'RetentionDisposalClassification', 'RetentionDisposalPeriod','RetentionDisposalApplyDate', 'RetentionDisposalFinalDestination', 'RetentionDisposalObservations','DescRules', 'Revised', 'Published', 'Available', 'Highlighted', 'Creator', 'Created', 'Username','ProcessInfoDate', 'OtherDescriptiveData', 'ProcessInfo']
+              each property in values
+                    tr.w3-border.div(style='background: rgba(219, 219, 219, 0.5);')
+                      td.w3-margin.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
+                      td.w3-margin.w3-border.w3-border-black.w3-center #{inquiricao[property]}
+
+        .div(class="w3-col m1").w3-padding-top-64
 
       .w3-bottom
-        .pagination.post-box
-          a(href=`?page=${prevIndex}`, class=(prevIndex ? '' : 'disabled')) Previous
-          a(href=`?page=${nextIndex}`, class=(nextIndex ? '' : 'disabled')) Next
         footer.w3-center
           .w3-container.w3-theme-l1
             p

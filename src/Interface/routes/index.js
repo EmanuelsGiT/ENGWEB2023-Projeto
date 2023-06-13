@@ -3,6 +3,7 @@ var router = express.Router();
 var env = require('../config/env')
 var axios = require('axios')
 
+
 /* GET home page. */
 router.get('/', function(req, res){
   res.render('login')
@@ -13,6 +14,8 @@ router.get('/home/inquiricoes', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
+  
+  if (req.query.page <= 0) res.render('error', {error: err})
   const currentPage = parseInt(req.query.page) || 1;
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   
@@ -31,6 +34,7 @@ router.get('/home/inquiricoes', function(req, res) {
   } else {
     axios.get(env.apiAccessPoint+"/inquiricoes?page="+ req.query.page +"&token=" + token)
       .then(response => {
+        if (currentPage > response.data.numPages) res.render('error', {error: err})
         const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
         res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
                                         prevIndex: prevPage, 
@@ -44,7 +48,10 @@ router.get('/home/inquiricoes', function(req, res) {
 
 router.get('/home/inquiricao/:id', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
-  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id)
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id +"?token=" + token)
     .then(response => {
       res.render('inquiricao', { inquiricao: response.data, d: data });
     })
@@ -126,7 +133,7 @@ router.post('/login', function(req, res){
 
 // Tratamento do Logout
 //router.get('/logout', verificaToken, (req, res) => {
-router.get('/logout', (req, res) => {
+router.get('/home/logout', (req, res) => {
   res.cookie('token', "revogado.revogado.revogado")
   res.redirect('/')
 })
