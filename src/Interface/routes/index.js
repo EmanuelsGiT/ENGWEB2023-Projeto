@@ -42,6 +42,17 @@ router.get('/home/inquiricoes', function(req, res) {
   }
 });
 
+router.get('/home/inquiricao/:id', function(req, res) {
+  var data = new Date().toISOString().substring(0,19)
+  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id)
+    .then(response => {
+      res.render('inquiricao', { inquiricao: response.data, d: data });
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+});
+
 router.get('/home', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   var token = ""
@@ -66,7 +77,6 @@ router.get('/home/post/:id', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   axios.get(env.apiAccessPoint+"/posts/" + req.params.id)
     .then(response => {
-      console.log(response.data);
       res.render('post', { post: response.data, d: data });
     })
     .catch(err => {

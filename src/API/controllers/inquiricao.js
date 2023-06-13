@@ -12,6 +12,32 @@ module.exports.getInquiricoes = () => {
             })
 }
 
+module.exports.getInquiricoesPage = pageIndex => {
+    return Inquiricao
+            .find()
+            .sort({data:-1})
+            .skip((pageIndex-1) * 10)
+            .limit(10)
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
+module.exports.getInquiricoesLen = () => {
+    return Inquiricao
+            .find()
+            .count()
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.getInquiricaoID = id => {
     return Inquiricao.findOne({_id:id})
             .then(resposta => {

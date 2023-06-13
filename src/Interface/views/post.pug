@@ -20,7 +20,7 @@ html
               option(value='nome') Nome
               option(value='data') Data
             input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='Search')
-      h5.w3-padding-32(style="font-size: 5vmax;") Post
+      h5.w3-padding-top-64(style="font-size: 5vmax;") Post
       .w3-content
           .w3-row
             a(href="/home/post/" + post._id, style="text-decoration: none;")
@@ -29,9 +29,9 @@ html
                 .w3-right.w3-margin-right #{post.data} 
                 p.w3-margin-left #{post.descricao}
                 .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
-                  //each comment in post.coments 
-                    p.w3-margin-left #{comment} 
-
+                  each comment in post.coments 
+                    p.w3-margin-left user: #{comment.username} 
+                    p.w3-margin-left #{comment.descricao}
       .w3-bottom
         footer.w3-center
           .w3-container.w3-theme-l1

@@ -38,10 +38,27 @@ var Posts = require('../controllers/posts')
 //});
 
 
+//router.get('/api/inquiricoes', function(req, res, next) {
+//  Inquiricoes.getInquiricoes()
+//    .then(inquiricoes => {
+//      res.jsonp(inquiricoes)
+//    })
+//    .catch(erro => {
+//      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
+//    })
+//});
+
 router.get('/api/inquiricoes', function(req, res, next) {
-  Inquiricoes.getInquiricoes()
-    .then(inquiricoes => {
-      res.jsonp(inquiricoes)
+  Inquiricoes.getInquiricoesPage(parseInt(req.query.page))
+    .then(response => {
+      Inquiricoes.getInquiricoesLen()
+        .then(len => {
+          const numPages_ = Math.ceil(len / 10);
+          res.jsonp({ inquiricoes: response, numPages: numPages_ })
+        })
+        .catch(erro => {
+          res.render('error', {error: erro, message: "Erro na obtenção da len das inquiricoes"})
+        })
     })
     .catch(erro => {
       res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
