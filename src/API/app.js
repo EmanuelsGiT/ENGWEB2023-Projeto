@@ -18,7 +18,7 @@ var app = express();
 
 app.use(logger('dev'));
 
-/*
+
 app.use(function(req, res, next){
   var myToken 
   if(req.query && req.query.token)
@@ -42,7 +42,7 @@ app.use(function(req, res, next){
       res.status(401).jsonp({error: "Token inexistente!"})
     }
 })
-*/
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

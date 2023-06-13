@@ -15,7 +15,7 @@ html
           a.w3-bar-item.w3-button(href='#') Perfil
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
-          form.w3-center(action='/home/inquiricao' style='margin-top: 2px')
+          form.w3-center(action='/home/inquiricoes' style='margin-top: 2px')
             select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
               option(value='nome') Nome
               option(value='lugar') Lugar
@@ -37,8 +37,12 @@ html
                   //.w3-right.w3-margin-right #{inquiricao.data} 
       .w3-display-bottom
         .pagination.post-box
-          a(href=`?page=${prevIndex}`, class=(prevIndex ? '' : 'disabled')) Previous
-          a(href=`?page=${nextIndex}`, class=(nextIndex ? '' : 'disabled')) Next
+          if searcht
+            a(href=`?page=${prevIndex}&searchType=${searcht}&search=${search}`, class=(prevIndex ? '' : 'disabled')) Previous
+            a(href=`?page=${nextIndex}&searchType=${searcht}&search=${search}`, class=(nextIndex ? '' : 'disabled')) Next
+          else
+            a(href=`?page=${prevIndex}`, class=(prevIndex ? '' : 'disabled')) Previous
+            a(href=`?page=${nextIndex}`, class=(nextIndex ? '' : 'disabled')) Next
         footer.w3-center
           .w3-container.w3-theme-l1
             p

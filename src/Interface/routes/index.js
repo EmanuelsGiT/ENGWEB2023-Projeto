@@ -23,12 +23,17 @@ router.get('/home/inquiricoes', function(req, res) {
   if(req.query.searchType && req.query.search) {
     axios.get(env.apiAccessPoint+"/inquiricoes?searchType=" + req.query.searchType + "&search=" + req.query.search + "&page="+ req.query.page +"&token=" + token)
       .then(response => {
+        if (currentPage > response.data.numPages) res.render('error', {error: err})
+        console.log(response.data.numPages)
         const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
         res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
                                         prevIndex: prevPage, 
-                                        nextIndex: nextPage });
+                                        nextIndex: nextPage,
+                                        searcht: req.query.searchType,
+                                        search: req.query.search });
       })
       .catch(err => {
+        console.log("aqui")
         res.render('error', {error: err})
       })
   } else {

@@ -48,14 +48,49 @@ module.exports.getInquiricaoID = id => {
             })
 }
 
-module.exports.getInquiricaoUsername = username => {
-    return Inquiricao.findOne({Username:username})
+module.exports.getPesquisa = (type, searchn, pageIndex) => {
+    if (type == "nome")
+    {
+        return Inquiricao
+            .find({UnitTitle: {$regex: searchn, $options:'i'}})
+            .sort({UnitTitle:-1})
+            .skip((pageIndex-1) * 10)
+            .limit(10)
             .then(resposta => {
-                return resposta
+                return {list: resposta, len: resposta.length}
             })
             .catch(erro => {
                 return erro
             })
+    }
+    if (type == "lugar")
+    {
+        return Inquiricao
+            .find({ScopeContent: {$regex: searchn, $options:'i'}})
+            .sort({UnitTitle:-1})
+            .skip((pageIndex-1) * 10)
+            .limit(10)
+            .then(resposta => {
+                return (resposta, resposta.length)
+            })
+            .catch(erro => {
+                return erro
+            })
+    }
+    if (type == "data")
+    {
+        return Inquiricao
+            .find({Created: {$regex: searchn, $options:'i'}})
+            .sort({UnitTitle:-1})
+            .skip((pageIndex-1) * 10)
+            .limit(10)
+            .then(resposta => {
+                return (resposta, resposta.length)
+            })
+            .catch(erro => {
+                return erro
+            })
+    }
 }
 
 module.exports.addInquiricao = l => {
