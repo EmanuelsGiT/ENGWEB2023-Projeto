@@ -7,7 +7,10 @@ var commentSchema = new mongoose.Schema({
 });
 
 var postSchema = new mongoose.Schema({
-    _id: String,
+    _id: {
+        type: mongoose.Types.ObjectId,
+        required: true
+    },
     designacao: String,
     data: String,
     registo: String,

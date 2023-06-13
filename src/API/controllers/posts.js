@@ -1,6 +1,5 @@
 var Post = require('../models/posts')
 const mongoose = require('mongoose')
-const ObjectId = require('mongodb').ObjectId;
 
 //.sort({data:-1})
 module.exports.getPosts = () => {
@@ -41,8 +40,9 @@ module.exports.getPostsLen = () => {
 }
 
 module.exports.getPostID = id => {
-    return Post.findOne({"_id": ObejctId(id)})
+    return Post.findOne({_id: new mongoose.Types.ObjectId(id)})
             .then(resposta => {
+                console.log(resposta)
                 return resposta
             })
             .catch(erro => {
