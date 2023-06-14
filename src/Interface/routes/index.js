@@ -65,6 +65,21 @@ router.get('/home/inquiricao/:id', function(req, res) {
     })
 });
 
+router.get('/home/perfil', function(req, res) {
+  var data = new Date().toISOString().substring(0,19)
+  res.render('perfil', {d: data});
+  //var token = ""
+  //if(req.cookies && req.cookies.token)
+  //  token = req.cookies.token
+  //axios.get(env.apiAccessPoint+"/users/" + req.params.id +"?token=" + token)
+  //.then(response => {
+  //    res.render('perfil', { user: response.data, d: data });
+  //  })
+  //  .catch(err => {
+  //    res.render('error', {error: err})
+  //  })
+});
+
 router.get('/home', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   var token = ""
@@ -87,7 +102,10 @@ router.get('/home', function(req, res) {
 
 router.get('/home/post/:id', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
-  axios.get(env.apiAccessPoint+"/posts/" + req.params.id)
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.get(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token)
     .then(response => {
       res.render('post', { post: response.data, d: data });
     })
