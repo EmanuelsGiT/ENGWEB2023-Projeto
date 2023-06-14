@@ -12,6 +12,7 @@ html
         .w3-bar.w3-theme.w3-left-align.w3-large.w3-padding-16
           a.w3-bar-item.w3-button.w3-amber.w3-margin-left(href='/home') Inquirições de Génere
           a.w3-bar-item.w3-button(href='/home/perfil') Perfil
+          a.w3-bar-item.w3-button(href='/home') Posts
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
           form.w3-center(action='/home/inquiricoes' style='margin-top: 2px')
@@ -20,7 +21,7 @@ html
               option(value='lugar') Lugar
               option(value='data') Data
             input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='Search')
-      
+            button.w3-bar-item.w3-theme.w3-button(type="submit") Search
       .w3-row
         .div(class="w3-col m1").w3-padding-top-64
         .div(class="w3-col m10").w3-container.w3-padding-top-64.post-box.w3-margin-left
