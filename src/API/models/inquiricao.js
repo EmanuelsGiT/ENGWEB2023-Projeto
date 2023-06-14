@@ -87,7 +87,8 @@ var inquiricoesSchema = new mongoose.Schema({
     Username: String,
     ProcessInfoDate: String,
     OtherDescriptiveData: String,
-    ProcessInfo: String
+    ProcessInfo: String,
+    Filiacao: String
 });
 
 module.exports = mongoose.model('inquiricoes', inquiricoesSchema)

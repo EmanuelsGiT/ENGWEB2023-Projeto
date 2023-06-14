@@ -51,17 +51,22 @@ module.exports.getInquiricaoID = id => {
 module.exports.getPesquisa = (type, searchn, pageIndex) => {
     if (type == "nome")
     {
-        return Inquiricao
-            .find({UnitTitle: {$regex: searchn, $options:'i'}})
-            .sort({UnitTitle:-1})
-            .skip((pageIndex-1) * 10)
-            .limit(10)
-            .then(resposta => {
-                return {list: resposta, len: resposta.length}
-            })
-            .catch(erro => {
-                return erro
-            })
+        
+        const countQuery = Inquiricao.find({ UnitTitle: { $regex: searchn, $options: 'i' } }).count();
+        const searchQuery = Inquiricao
+                            .find({ UnitTitle: { $regex: searchn, $options: 'i' } })
+                            .sort({UnitTitle:-1})
+                            .skip((pageIndex-1) * 10)
+                            .limit(10);
+        return Promise.all([countQuery, searchQuery])
+                      .then(([count, resposta]) => {
+                            console.log(count)
+                            console.log(resposta)
+                            return { list: resposta, len: count };
+                        })
+                        .catch(erro => {
+                          return erro;
+                        });
     }
     if (type == "lugar")
     {

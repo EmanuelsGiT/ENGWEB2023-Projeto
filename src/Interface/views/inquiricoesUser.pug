@@ -13,6 +13,7 @@ html
         .w3-bar.w3-theme.w3-left-align.w3-large.w3-padding-16
           a.w3-bar-item.w3-button.w3-amber.w3-margin-left(href='/home') Inquirições de Génere
           a.w3-bar-item.w3-button(href='#') Perfil
+          a.w3-bar-item.w3-button(href='/home') Posts
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
           form.w3-center(action='/home/inquiricoes' style='margin-top: 2px')
@@ -21,20 +22,21 @@ html
               option(value='lugar') Lugar
               option(value='data') Data
             input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='Search')
+            button.w3-bar-item.w3-theme.w3-button(type="submit")
+              | Search
       h5.w3-padding-top-64(style="font-size: 5vmax;") Inquirições
       .w3-content
         each inquiricao in inquiricoes
           .w3-row
             a(href="/home/inquiricao/" + inquiricao._id, style="text-decoration: none;")
-              .w3-card.w3-round-xlarge.w3-hover-shadow.div(style='background: rgba(219, 219, 219, 0.5);')
+              .w3-card.w3-round-xlarge.w3-hover-shadow.post-box
                 .w3-margin.div(style="font-size: 0.9vmax;")
-                  h5.w3-topleft(style="font-size: 1.5vmax; font-weight:bold") #{inquiricao.UnitTitle}
+                  h5.w3-topleft(style="font-size: 1.5vmax; font-weight:bold") #{inquiricao.UnitTitle} 
+                    span.w3-right #{inquiricao.UnitId}
                   p
                     span Record: 
                     span
-                      | #{inquiricao.CompleteUnitId} - #{inquiricao.UnitTitle}
-                  //h1.w3-text-teal.w3-margin-left #{inquiricao.nome}
-                  //.w3-right.w3-margin-right #{inquiricao.data} 
+                      | #{inquiricao.CompleteUnitId}
       .w3-display-bottom
         .pagination.post-box
           if searcht
