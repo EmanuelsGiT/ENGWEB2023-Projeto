@@ -33,7 +33,6 @@ router.get('/home/inquiricoes', function(req, res) {
                                         search: req.query.search });
       })
       .catch(err => {
-        console.log("aqui")
         res.render('error', {error: err})
       })
   } else {
@@ -86,10 +85,29 @@ router.get('/home', function(req, res) {
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
   
+  if (req.query.page <= 0) res.render('error', {error: err})
+  const currentPage = parseInt(req.query.page) || 1;
+  const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+  
+  if(req.query.searchType && req.query.search) {
+    axios.get(env.apiAccessPoint+"/posts?searchType=" + req.query.searchType + "&search=" + req.query.search + "&page="+ req.query.page +"&token=" + token)
+      .then(response => {
+        if (currentPage > response.data.numPages) res.render('error', {error: err})
+        console.log(response.data.numPages)
+        const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
+        res.render('homeUser', { posts: response.data.posts, 
+                                        prevIndex: prevPage, 
+                                        nextIndex: nextPage,
+                                        searcht: req.query.searchType,
+                                        search: req.query.search });
+      })
+      .catch(err => {
+        res.render('error', {error: err})
+      })
+  } else {
   axios.get(env.apiAccessPoint+"/posts?page=" + req.query.page + "&token=" + token)
     .then(response => {    
-      const currentPage = parseInt(req.query.page) || 1;
-      const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+      if (currentPage > response.data.numPages) res.render('error', {error: err})
       const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
       res.render('homeUser', { posts: response.data.posts, 
                                 prevIndex: prevPage, 
@@ -98,6 +116,7 @@ router.get('/home', function(req, res) {
     .catch(err => {
       res.render('error', {error: err})
     })
+  }
 });
 
 router.get('/home/post/:id', function(req, res) {

@@ -42,12 +42,46 @@ module.exports.getPostsLen = () => {
 module.exports.getPostID = id => {
     return Post.findOne({_id: new mongoose.Types.ObjectId(id)})
             .then(resposta => {
-                console.log(resposta)
                 return resposta
             })
             .catch(erro => {
                 return erro
             })
+}
+
+module.exports.getPostPesquisa = (type, searchn, pageIndex) => {
+    if (type == "nome")
+    {
+        const countQuery = Post.find({ nome: { $regex: searchn, $options: 'i' } }).count();
+        const searchQuery = Post
+                            .find({ nome: { $regex: searchn, $options: 'i' } })
+                            .sort({nome:-1})
+                            .skip((pageIndex-1) * 10)
+                            .limit(10);
+        return Promise.all([countQuery, searchQuery])
+                      .then(([count, resposta]) => {
+                            return { list: resposta, len: count };
+                        })
+                        .catch(erro => {
+                          return erro;
+                        });
+    }
+    if (type == "data")
+    {
+        const countQuery = Post.find({ data: { $regex: searchn, $options: 'i' } }).count();
+        const searchQuery = Post
+                            .find({ data: { $regex: searchn, $options: 'i' } })
+                            .sort({data:-1})
+                            .skip((pageIndex-1) * 10)
+                            .limit(10);
+        return Promise.all([countQuery, searchQuery])
+                      .then(([count, resposta]) => {
+                            return { list: resposta, len: count };
+                        })
+                        .catch(erro => {
+                          return erro;
+                        });
+    }
 }
 
 module.exports.addPost = p => {

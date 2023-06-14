@@ -3,10 +3,10 @@ var router = express.Router();
 var Inquiricoes = require('../controllers/inquiricao')
 var Posts = require('../controllers/posts')
 
-// GET: os vários pedidos
+// GET: os vários pedidos Inquiricoes
 router.get('/api/inquiricoes', function(req, res, next) {
   if(req.query.searchType && req.query.search){
-    console.log("pesquisa")
+    console.log("pesquisaInquiricao")
     Inquiricoes.getPesquisa(req.query.searchType, req.query.search, parseInt(req.query.page)) 
       .then(response=>{
         console.log(response.len)
@@ -34,34 +34,6 @@ router.get('/api/inquiricoes', function(req, res, next) {
   }
 });
 
-
-//router.get('/api/inquiricoes', function(req, res, next) {
-//  Inquiricoes.getInquiricoes()
-//    .then(inquiricoes => {
-//      res.jsonp(inquiricoes)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
-//    })
-//});
-
-router.get('/api/inquiricoes', function(req, res, next) {
-  Inquiricoes.getInquiricoesPage(parseInt(req.query.page))
-    .then(response => {
-      Inquiricoes.getInquiricoesLen()
-        .then(len => {
-          const numPages_ = Math.ceil(len / 10);
-          res.jsonp({ inquiricoes: response, numPages: numPages_ })
-        })
-        .catch(erro => {
-          res.render('error', {error: erro, message: "Erro na obtenção da len das inquiricoes"})
-        })
-    })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
-    })
-});
-
 // GET: inquiricao
 router.get('/api/inquiricoes/:id', function(req, res) {
   Inquiricoes.getInquiricaoID(req.params.id)
@@ -73,18 +45,7 @@ router.get('/api/inquiricoes/:id', function(req, res) {
     })
 });
 
-// GET: inquiricao
-//router.get('/api/inquiricoes/:username', function(req, res) {
-//  Inquiricoes.getInquiricaoUsername(req.params.username)
-//    .then(inquiricao => {
-//      res.jsonp(inquiricao)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção da inquiricao"})
-//    })
-//});
-
-// POST: de uma lista de compras
+// POST: de uma inquiricao
 router.post('/api/inquiricoes', function(req, res) {
   Inquiricoes.addInquiricao(req.body)
     .then(inquiricao => {
@@ -95,21 +56,35 @@ router.post('/api/inquiricoes', function(req, res) {
     })
 })
 
+// GET: os vários pedidos Inquiricoes
 router.get('/api/posts', function(req, res, next) {
-  Posts.getPostsPage(parseInt(req.query.page))
-    .then(posts_ => {
-      Posts.getPostsLen()
-        .then(len => {
-          const numPages_ = Math.ceil(len / 10);
-          res.jsonp({ posts: posts_, numPages: numPages_ })
-        })
-        .catch(erro => {
-          res.render('error', {error: erro, message: "Erro na obtenção da len dos posts"})
-        })
+  if(req.query.searchType && req.query.search){
+    console.log("pesquisaPost")
+    Posts.getPostPesquisa(req.query.searchType, req.query.search, parseInt(req.query.page)) 
+      .then(response=>{
+        console.log(response.len)
+        const numPages_ = Math.ceil(response.len / 10);
+        res.jsonp({ posts: response.list, numPages: numPages_ })
+      })
+      .catch(erro=>{
+        res.jsonp({error:erro, message:"Erro na obtencao do contrato"})
     })
-    .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na obtenção dos posts"})
-    })
+  } else {
+    Posts.getPostsPage(parseInt(req.query.page))
+      .then(posts_ => {
+        Posts.getPostsLen()
+          .then(len => {
+            const numPages_ = Math.ceil(len / 10);
+            res.jsonp({ posts: posts_, numPages: numPages_ })
+          })
+          .catch(erro => {
+            res.render('error', {error: erro, message: "Erro na obtenção da len dos posts"})
+          })
+      })
+      .catch(erro => {
+        res.render('error', {error: erro, message: "Erro na obtenção dos posts"})
+      })
+  }
 });
 
 router.get('/api/posts/:id', function(req, res) {
@@ -122,6 +97,44 @@ router.get('/api/posts/:id', function(req, res) {
     })
 });
 
+
+// GET: inquiricao
+//router.get('/api/inquiricoes/:username', function(req, res) {
+//  Inquiricoes.getInquiricaoUsername(req.params.username)
+//    .then(inquiricao => {
+//      res.jsonp(inquiricao)
+//    })
+//    .catch(erro => {
+//      res.render('error', {error: erro, message: "Erro na obtenção da inquiricao"})
+//    })
+//});
+//router.get('/api/inquiricoes', function(req, res, next) {
+//  Inquiricoes.getInquiricoes()
+//    .then(inquiricoes => {
+//      res.jsonp(inquiricoes)
+//    })
+//    .catch(erro => {
+//      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
+//    })
+//});
+
+//router.get('/api/inquiricoes', function(req, res, next) {
+//  Inquiricoes.getInquiricoesPage(parseInt(req.query.page))
+//    .then(response => {
+//      Inquiricoes.getInquiricoesLen()
+//        .then(len => {
+//          const numPages_ = Math.ceil(len / 10);
+//          res.jsonp({ inquiricoes: response, numPages: numPages_ })
+//        })
+//        .catch(erro => {
+//          res.render('error', {error: erro, message: "Erro na obtenção da len das inquiricoes"})
+//        })
+//    })
+//    .catch(erro => {
+//      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
+//    })
+//});
+//
 //router.get('/api/categorias', function(req, res) {
 //  Lista.categorias()
 //    .then(lista => {

@@ -60,8 +60,6 @@ module.exports.getPesquisa = (type, searchn, pageIndex) => {
                             .limit(10);
         return Promise.all([countQuery, searchQuery])
                       .then(([count, resposta]) => {
-                            console.log(count)
-                            console.log(resposta)
                             return { list: resposta, len: count };
                         })
                         .catch(erro => {
@@ -70,31 +68,35 @@ module.exports.getPesquisa = (type, searchn, pageIndex) => {
     }
     if (type == "lugar")
     {
-        return Inquiricao
-            .find({ScopeContent: {$regex: searchn, $options:'i'}})
-            .sort({UnitTitle:-1})
-            .skip((pageIndex-1) * 10)
-            .limit(10)
-            .then(resposta => {
-                return (resposta, resposta.length)
-            })
-            .catch(erro => {
-                return erro
-            })
+        const countQuery = Inquiricao.find({ ScopeContent: { $regex: searchn, $options: 'i' } }).count();
+        const searchQuery = Inquiricao
+                            .find({ ScopeContent: { $regex: searchn, $options: 'i' } })
+                            .sort({UnitTitle:-1})
+                            .skip((pageIndex-1) * 10)
+                            .limit(10);
+        return Promise.all([countQuery, searchQuery])
+                      .then(([count, resposta]) => {
+                            return { list: resposta, len: count };
+                        })
+                        .catch(erro => {
+                          return erro;
+                        });
     }
     if (type == "data")
     {
-        return Inquiricao
-            .find({Created: {$regex: searchn, $options:'i'}})
-            .sort({UnitTitle:-1})
-            .skip((pageIndex-1) * 10)
-            .limit(10)
-            .then(resposta => {
-                return (resposta, resposta.length)
-            })
-            .catch(erro => {
-                return erro
-            })
+        const countQuery = Inquiricao.find({ Created: { $regex: searchn, $options: 'i' } }).count();
+        const searchQuery = Inquiricao
+                            .find({ Created: { $regex: searchn, $options: 'i' } })
+                            .sort({Created:-1})
+                            .skip((pageIndex-1) * 10)
+                            .limit(10);
+        return Promise.all([countQuery, searchQuery])
+                      .then(([count, resposta]) => {
+                            return { list: resposta, len: count };
+                        })
+                        .catch(erro => {
+                          return erro;
+                        });
     }
 }
 
