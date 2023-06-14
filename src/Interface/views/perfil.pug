@@ -16,7 +16,7 @@ html
           a.w3-bar-item.w3-button(href='/home') Posts
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
-          form.w3-center(action='/home/post' style='margin-top: 2px')
+          form.w3-center(action='/home' style='margin-top: 2px')
             select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
               option(value='nome') Nome
               option(value='data') Data
@@ -26,24 +26,32 @@ html
       .w3-content
           .w3-row
             .w3-card.w3-round-xlarge.post-box.w3-hover-shadow.w3-panel.w3-padding-16
-                form.w3-padding-bottom-64
-                    p Nome: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='nome')
-                    p Email: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='email')
-                    p Password: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='password')
-                    p Nova password: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='password')
-                    p Filiação: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='filiação')
-                    p Nível: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='nível')
-                    p Data de Registo: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='dataRegisto')
-                    p Data do Último Acesso: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='dataUltimoAcesso')
-                    button.w3-bar-item.w3-green.w3-button.w3-right(type="submit") Search
+                form.w3-padding-bottom-64(action='/perfil', method='POST')
+                    p.div(style="font-size: 1vmax;")
+                      strong Nome: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='nome', type='text', placeholder='nome')
+                    p.div(style="font-size: 1vmax;")
+                      strong Email: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='email', type='text', placeholder='email')
+                    p.div(style="font-size: 1vmax;")
+                      strong Password: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='pass', type='password', placeholder='password')
+                    p.div(style="font-size: 1vmax;")
+                      strong Nova password: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='npass', type='password', placeholder='password')
+                    p.div(style="font-size: 1vmax;")
+                      strong Filiação: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='filiacao', type='text', placeholder='filiação')
+                    p.div(style="font-size: 1vmax;")
+                      strong Nível: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='nivel', type='text', placeholder='nível', readonly)
+                    p.div(style="font-size: 1vmax;")
+                      strong Data de Registo: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='dataRegisto', type='date', placeholder='dataRegisto', readonly)
+                    p.div(style="font-size: 1vmax;")
+                      strong Data do Último Acesso: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='dataUltimo', type='date', placeholder='dataUltimoAcesso', readonly)
+                    button.w3-bar-item.w3-green.w3-button.w3-right.w3-margin.w3-round-large(type="submit") Submit
       .w3-display-bottom
         footer.w3-center
           .w3-container.w3-theme-l1

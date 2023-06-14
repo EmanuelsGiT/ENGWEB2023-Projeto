@@ -25,15 +25,24 @@ html
       h5.w3-padding-top-64(style="font-size: 5vmax;") Post
       .w3-content
           .w3-row
-            a(href="/home/post/" + post._id, style="text-decoration: none;")
+            .w3-card.w3-round-xlarge.div(style='background: rgba(219, 219, 219, 0.9);').w3-hover-shadow
+              .w3-right.w3-margin 
+                a(href=`http://localhost:8000/home/inquiricao/${post.registo}`) Registo
+              h1.w3-text-teal.w3-margin-left #{post.nome}
+              .w3-right.w3-margin-right #{post.data} 
+              p.w3-margin-left #{post.descricao}
+            .w3-card.w3-round-xlarge.post-box.w3-hover-shadow.w3-panel.w3-padding-16
+                form.w3-padding-bottom-64(action=`http://localhost:8000/home/post/${post._id}`, method='POST')
+                    p.div(style="font-size: 1vmax;").w3-margin-left
+                      strong Nome
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='coment', type='text', placeholder='Comente aqui!') 
+                    button.w3-bar-item.w3-green.w3-button.w3-right.w3-margin.w3-round-large(type="submit") Comentar
+            each comment in post.coments 
               .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
-                h1.w3-text-teal.w3-margin-left #{post.nome}
-                .w3-right.w3-margin-right #{post.data} 
-                p.w3-margin-left #{post.descricao}
-                .w3-card.w3-round-xlarge.post-box.w3-hover-shadow
-                  each comment in post.coments 
-                    p.w3-margin-left user: #{comment.username} 
-                    p.w3-margin-left #{comment.descricao}
+                  p.w3-margin-left.div(style="font-size: 1vmax;")
+                    strong #{comment.username} 
+                  p.w3-margin-left #{comment.descricao}
+              //p.w3-topleft.w3-margin-left.div(style="font-size: 0.9vmax;") Comments:
       .w3-display-bottom
         footer.w3-center
           .w3-container.w3-theme-l1
