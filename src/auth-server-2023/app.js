@@ -38,7 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/users', usersRouter);
-app.use('/auth/google', authRouter);
+app.use('/auth/', authRouter);
 app.use('/auth/facebook', facebookRouter);
 
 // catch 404 and forward to error handler

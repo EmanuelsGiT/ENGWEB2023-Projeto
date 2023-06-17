@@ -164,6 +164,7 @@ router.get('/login', function(req, res){
 router.post('/login', function(req, res){
   axios.post('http://localhost:8002/users/login', req.body)
     .then(response => {
+      console.log(response)
       res.cookie('token', response.data.token)
       console.log("Entraste crlh!!!!")
       res.redirect('/home')
@@ -176,6 +177,7 @@ router.post('/login', function(req, res){
 // Tratamento do Logout
 //router.get('/logout', verificaToken, (req, res) => {
 router.get('/home/logout', (req, res) => {
+  //req.session.destroy()
   res.cookie('token', "revogado.revogado.revogado")
   res.redirect('/')
 })
@@ -202,7 +204,7 @@ router.get('/login/facebook', function(req, res){
     .then(response => {
       res.cookie('token', response.data.token)
       console.log("Entraste crlh!!!!")
-      res.redirect('/retrieveAll')
+      res.redirect('/home')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})
@@ -213,8 +215,9 @@ router.get('/login/facebook', function(req, res){
 router.get('/login/google', function(req, res){
   axios.get('http://localhost:8002/auth/google')
     .then(response => {
-      console.log("Entraste crlh!!!!")
-      res.redirect('/retrieveAll')
+      res.cookie('token', response.data.token)
+      console.log("interface index")
+      res.redirect('/home')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})

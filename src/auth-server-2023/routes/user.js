@@ -66,14 +66,14 @@ router.post('/login', passport.authenticate('local'), function(req, res){
   });
 })
 
-router.post('/logout', function(req, res) {
-  res.clearCookie(req.query.token); 
-  res.clearCookie(req.body.token);
-  console.log("query.token " + req.query.token) 
-  console.log("body.token" + req.body.token)
-  console.log("auth limpo")
-  res.status(200).send('Logout bem-sucedido');
-});
+//router.post('/logout', function(req, res) {
+//  res.clearCookie(req.query.token); 
+//  res.clearCookie(req.body.token);
+//  console.log("query.token " + req.query.token) 
+//  console.log("body.token" + req.body.token)
+//  console.log("auth limpo")
+//  res.status(200).send('Logout bem-sucedido');
+//});
 
 router.put('/:id', auth.verificaAcesso, function(req, res) {
   User.updateUser(req.params.id, req.body)
