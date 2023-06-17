@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var env = require('../config/env')
-var axios = require('axios')
+var axios = require('axios');
+const { response } = require('../../API/app');
 
 
 /* GET home page. */
@@ -119,7 +120,7 @@ router.get('/home', function(req, res) {
   }
 });
 
-router.get('/home/post/:id', function(req, res) {
+router.route('/home/post/:id').get(function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   var token = ""
   if(req.cookies && req.cookies.token)
@@ -131,7 +132,18 @@ router.get('/home/post/:id', function(req, res) {
     .catch(err => {
       res.render('error', {error: err})
     })
-});
+}).post(function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.post(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token, req.body)
+  .then(response => {
+    res.redirect('/home/post/' + req.params.id)
+  })
+  .catch(err => {
+    res.render('error', {error: err})
+  })
+})
 
 //router.get('/retrieveList/:id', function(req, res) {
 //  var data = new Date().toISOString().substring(0,19)

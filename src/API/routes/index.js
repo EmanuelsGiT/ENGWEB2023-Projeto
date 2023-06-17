@@ -56,6 +56,18 @@ router.post('/api/inquiricoes', function(req, res) {
     })
 })
 
+// POST : de um comentario
+router.post('/api/posts/:id', function(req, res) {
+  Posts.addComment(req.params.id, req.body)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro no comment"})
+    })
+
+})
+
 // GET: os vários pedidos Inquiricoes
 router.get('/api/posts', function(req, res, next) {
   if(req.query.searchType && req.query.search){
