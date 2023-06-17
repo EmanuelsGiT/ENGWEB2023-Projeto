@@ -94,15 +94,29 @@ module.exports.addPost = p => {
             })
 }
 
-module.exports.addComent = (id, com) => {
-    return Post.updateOne({_id:id}, 
-                { $push: { "coments": com } })
-            .then(resposta => {
-                return resposta
-            })
-            .catch(erro => {
-                return erro
-            })
+module.exports.addComment = (id, c) => {
+    return Post.findOne({_id: new mongoose.Types.ObjectId(id)})
+                .then((post) => {
+                if (!post) {
+                    console.log('Post not found');
+                    return;
+                }
+                
+                const newComment = {
+                    username: c.nome,
+                    descricao: c.coment 
+                };
+                
+                post.coments.push(newComment);
+            
+                return post.save();
+                })
+                .then(() => {
+                console.log('Comment added successfully');
+                })
+                .catch((err) => {
+                console.error(err);
+                });
 }
 
 module.exports.updatePost = p => {
