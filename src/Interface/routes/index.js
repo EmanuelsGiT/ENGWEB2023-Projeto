@@ -127,7 +127,14 @@ router.route('/home/post/:id').get(function(req, res) {
     token = req.cookies.token
   axios.get(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token)
     .then(response => {
-      res.render('post', { post: response.data, d: data });
+      axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+        .then(res => {
+          console.log(res.data)
+          res.render('post', { post: response.data, user: res.data, d: data });
+        })
+        .catch(err => {
+          res.render('error', {error: err})
+        })
     })
     .catch(err => {
       res.render('error', {error: err})

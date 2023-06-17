@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-var usersRouter = require('./routes/user');
+const usersRouter = require('./routes/user');
 const authRouter = require('./routes/google_auth');
 const facebookRouter = require('./routes/facebook_auth');
 
@@ -38,8 +38,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/users', usersRouter);
-app.use('/auth/', authRouter);
-app.use('/auth/facebook', facebookRouter);
+//app.use('/auth/', authRouter);
+//app.use('/auth/facebook', facebookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

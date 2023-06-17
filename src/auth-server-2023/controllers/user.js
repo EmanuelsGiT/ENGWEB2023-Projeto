@@ -25,6 +25,16 @@ module.exports.getUser = id => {
             })
 }
 
+module.exports.getUserName = u => {
+    return User.findOne({username: u})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.addUser = u => {
     return User.create(u)
             .then(resposta => {
