@@ -109,6 +109,16 @@ router.get('/api/posts/:id', function(req, res) {
     })
 });
 
+router.post('/api/posts/', function(req, res) { // ver rota
+  Posts.addPost(req.body)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na inserção de um produto"})
+    })
+})
+
 
 // GET: inquiricao
 //router.get('/api/inquiricoes/:username', function(req, res) {

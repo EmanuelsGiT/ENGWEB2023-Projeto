@@ -4,7 +4,6 @@ var jwt = require('jsonwebtoken')
 var passport = require('passport')
 var userModel = require('../models/user')
 var auth = require('../auth/auth')
-var x = require('console')
 var User = require('../controllers/user')
 
 router.get('/', auth.verificaAcesso, function(req, res){
@@ -59,6 +58,7 @@ router.post('/register', function(req, res) {
                                      filiacao: req.body.filiacao,
                                      level: req.body.level, 
                                      active: true, 
+                                     dateLastAccess: d,
                                      dateCreated: d
                                    }), 
                                   req.body.password, 
@@ -81,6 +81,8 @@ router.post('/register', function(req, res) {
 })
   
 router.post('/login', passport.authenticate('local'), function(req, res){
+  var d = new Date().toISOString().substring(0,19)
+  User.updateUserLastAccess(req.user._id, d)
   jwt.sign({ username: req.user.username, level: req.user.level, 
     sub: 'aula de EngWeb2023'}, 
     "EngWeb2023",
