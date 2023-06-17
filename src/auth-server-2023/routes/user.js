@@ -13,21 +13,20 @@ router.get('/', auth.verificaAcesso, function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
+/*
 router.get('/:id', auth.verificaAcesso, function(req, res){
   User.getUser(req.params.id)
     .then(dados => res.status(200).jsonp({dados: dados}))
     .catch(e => res.status(500).jsonp({error: e}))
 })
-
+*/
 
 router.get('/profile', auth.verificaAcesso, function(req, res){
-  console.log("OAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaa")
   const token = req.query.token || req.body.token;
   jwt.verify(token, 'EngWeb2023', (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: 'Invalid token' });
     }
-    x.log(token)
     const userN = decoded.username; // Assuming the token contains the user ID
     console.log(userN)
     User.getUserName(userN)
@@ -36,7 +35,7 @@ router.get('/profile', auth.verificaAcesso, function(req, res){
           return res.status(404).json({ error: 'User not found' });
         }
         console.log(user)
-        res.status(200).json({ username: user });
+        res.status(200).json({ dados: user });
       })
       .catch(error => {
         res.status(500).json({ error: error.message });

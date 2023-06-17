@@ -128,9 +128,9 @@ router.route('/home/post/:id').get(function(req, res) {
   axios.get(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token)
     .then(response => {
       axios.get('http://localhost:8002/users/profile' + "?token=" + token)
-        .then(res => {
-          console.log(res.data)
-          res.render('post', { post: response.data, user: res.data, d: data });
+        .then(response2 => {
+          console.log(response2.data.dados)
+          res.render('post', { post: response.data, user: response2.data.dados, d: data });
         })
         .catch(err => {
           res.render('error', {error: err})
