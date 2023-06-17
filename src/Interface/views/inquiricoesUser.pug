@@ -36,16 +36,33 @@ html
                     span Record: 
                     span
                       | #{inquiricao.CompleteUnitId}
-      .w3-display-bottom
-        .pagination.post-box
-          if searcht
-            a(href=`?page=${prevIndex}&searchType=${searcht}&search=${search}`, class=(prevIndex ? '' : 'disabled')) Previous
-            a(href=`?page=${nextIndex}&searchType=${searcht}&search=${search}`, class=(nextIndex ? '' : 'disabled')) Next
-          else
-            a(href=`?page=${prevIndex}`, class=(prevIndex ? '' : 'disabled')) Previous
-            a(href=`?page=${nextIndex}`, class=(nextIndex ? '' : 'disabled')) Next
-        footer.w3-center
-          .w3-container.w3-theme-l1
-            p
-              | Powered by 
-              a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+      
+      if inquiricoes.length < 7
+        .w3-bottom
+          .pagination.post-box
+            if searcht
+              a(href=`?page=${prevIndex}&searchType=${searcht}&search=${search}`, class=(prevIndex ? '' : 'disabled')) Previous
+              a(href=`?page=${nextIndex}&searchType=${searcht}&search=${search}`, class=(nextIndex ? '' : 'disabled')) Next
+            else
+              a(href=`?page=${prevIndex}`, class=(prevIndex ? '' : 'disabled')) Previous
+              a(href=`?page=${nextIndex}`, class=(nextIndex ? '' : 'disabled')) Next
+          footer.w3-center
+            .w3-container.w3-theme-l1
+              p
+                | Powered by 
+                a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+
+      else
+        .w3-display-bottom
+          .pagination.post-box
+            if searcht
+              a(href=`?page=${prevIndex}&searchType=${searcht}&search=${search}`, class=(prevIndex ? '' : 'disabled')) Previous
+              a(href=`?page=${nextIndex}&searchType=${searcht}&search=${search}`, class=(nextIndex ? '' : 'disabled')) Next
+            else
+              a(href=`?page=${prevIndex}`, class=(prevIndex ? '' : 'disabled')) Previous
+              a(href=`?page=${nextIndex}`, class=(nextIndex ? '' : 'disabled')) Next
+          footer.w3-center
+            .w3-container.w3-theme-l1
+              p
+                | Powered by 
+                a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
