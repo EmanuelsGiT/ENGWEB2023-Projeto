@@ -128,7 +128,6 @@ router.route('/home/post/:id').get(function(req, res) {
     .then(response => {
       axios.get('http://localhost:8002/users/profile' + "?token=" + token)
         .then(response2 => {
-          console.log(response2.data.dados)
           res.render('post', { post: response.data, user: response2.data.dados, d: data });
         })
         .catch(err => {
@@ -145,6 +144,37 @@ router.route('/home/post/:id').get(function(req, res) {
   axios.post(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token, req.body)
   .then(response => {
     res.redirect('/home/post/' + req.params.id)
+  })
+  .catch(err => {
+    res.render('error', {error: err})
+  })
+})
+
+router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
+  var date = new Date().toISOString().substring(0,19)
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.get(env.apiAccessPoint + "/inquiricoes/" + req.params.id + "?token=" + token)
+    .then(response => {
+      axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+        .then(response2 => {
+          res.render('newPost', {inq: response.data, d:date, user: response2.data.dados});
+        })
+        .catch(err => {
+          res.render('error', {error: err})
+        })
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+}).post(function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.post(env.apiAccessPoint + "/posts/" + "?token=" + token, req.body)
+  .then(response => {
+    res.redirect('/home/inquiricao/' + req.params.id)
   })
   .catch(err => {
     res.render('error', {error: err})

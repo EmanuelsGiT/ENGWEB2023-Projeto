@@ -11,7 +11,8 @@ var postSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         required: true
     },
-    designacao: String,
+    nome: String,
+    descricao: String,
     data: String,
     registo: String,
     coments: [commentSchema]
