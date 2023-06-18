@@ -118,7 +118,7 @@ router.get('/home', function(req, res) {
     })
   }
 });
-router.get('/home/post/:idPost/comments/:idComment', function(req, res) {
+router.get('/home/post/:idPost/delete/:idComment', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
@@ -130,6 +130,20 @@ router.get('/home/post/:idPost/comments/:idComment', function(req, res) {
       res.render('error', {error: err})
     })
 });
+
+
+router.get('/home/post/delete/:id', function(req,res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.delete(env.apiAccessPoint + "/posts/" + req.params.id + "?token=" + token)
+    .then(response => {
+      res.redirect('/home');
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+})
 
 router.route('/home/post/:id').get(function(req, res) {
   var data = new Date().toISOString().substring(0,19)
