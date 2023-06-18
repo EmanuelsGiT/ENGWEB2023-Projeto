@@ -45,6 +45,16 @@ router.get('/api/inquiricoes/:id', function(req, res) {
     })
 });
 
+router.delete('/api/inquiricoes/:idInq', function(req, res) {
+  Inquiricoes.deleteInquiricao(req.params.idInq)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro no delete da inquiricao"})
+    })
+})
+
 // POST: de uma inquiricao
 router.post('/api/inquiricoes', function(req, res) {
   Inquiricoes.addInquiricao(req.body)
@@ -115,7 +125,7 @@ router.post('/api/posts/', function(req, res) {
       res.jsonp(dados)
     })
     .catch(erro => {
-      res.render('error', {error: erro, message: "Erro na inserção de um produto"})
+      res.render('error', {error: erro, message: "Erro na inserção de um post"})
     })
 })
 
@@ -135,7 +145,7 @@ router.delete('/api/posts/:idPost', function(req, res) {
       res.jsonp(dados)
     })
     .catch(erro => {
-      res.render('error', {error: erro, message: "Erro no delete de um comment"})
+      res.render('error', {error: erro, message: "Erro no delete de um post"})
     })
 })
 
