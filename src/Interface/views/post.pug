@@ -25,6 +25,8 @@ html
       h5.w3-padding-top-64(style="font-size: 5vmax;") Post
       .w3-content
           .w3-row
+            if (user.username == post.nome || user.level == '1')
+              a.w3-btn.w3-red.w3-rounded.w3-align-rigth(href="http://localhost:8000/home/post/" + post._id) Eliminar Post
             .w3-card.w3-round-xlarge.div(style='background: rgba(219, 219, 219, 0.9);').w3-hover-shadow
               .w3-right.w3-margin 
                 a(href=`http://localhost:8000/home/inquiricao/${post.registo}`) Registo
@@ -43,6 +45,9 @@ html
                   p.w3-margin-left.div(style="font-size: 1vmax;")
                     strong #{comment.username} 
                   p.w3-margin-left #{comment.descricao}
+                  if (user.username == comment.username || user.level == '1')
+                    a.w3-btn.w3-red.w3-rounded.w3-align-rigth(href="http://localhost:8000/home/post/" + post._id +"/comments/" + comment._id) Eliminar
+                  //button.w3-bar-item.w3-green.w3-button.w3-right.w3-margin.w3-round-large(type="submit") Eliminar
               //p.w3-topleft.w3-margin-left.div(style="font-size: 0.9vmax;") Comments:
       
       if post.coments.length < 5

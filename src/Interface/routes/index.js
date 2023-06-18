@@ -118,6 +118,18 @@ router.get('/home', function(req, res) {
     })
   }
 });
+router.get('/home/post/:idPost/comments/:idComment', function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.delete(env.apiAccessPoint + "/posts/" + req.params.idPost + "/comments/" + req.params.idComment + "?token=" + token)
+    .then(response => {
+      res.redirect('/home/post/' + req.params.idPost)
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+});
 
 router.route('/home/post/:id').get(function(req, res) {
   var data = new Date().toISOString().substring(0,19)
@@ -168,7 +180,7 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
     .catch(err => {
       res.render('error', {error: err})
     })
-}).post(function(req, res) {
+  }).post(function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token

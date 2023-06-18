@@ -109,7 +109,7 @@ router.get('/api/posts/:id', function(req, res) {
     })
 });
 
-router.post('/api/posts/', function(req, res) { // ver rota
+router.post('/api/posts/', function(req, res) {
   Posts.addPost(req.body)
     .then(dados => {
       res.jsonp(dados)
@@ -118,6 +118,27 @@ router.post('/api/posts/', function(req, res) { // ver rota
       res.render('error', {error: erro, message: "Erro na inserção de um produto"})
     })
 })
+
+router.delete('/api/posts/:idPost/comments/:idComment', function(req, res) {
+  Posts.deleteComment(req.params.idPost, req.params.idComment)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro no delete de um comment"})
+    })
+})
+
+router.delete('/api/posts/:idPost', function(req, res) {
+  Posts.deletePost(req.params.idPost)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro no delete de um comment"})
+    })
+})
+
 
 
 // GET: inquiricao

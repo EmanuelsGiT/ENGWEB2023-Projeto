@@ -85,6 +85,7 @@ module.exports.getPostPesquisa = (type, searchn, pageIndex) => {
 }
 
 module.exports.addPost = p => {
+    p._id = new mongoose.Types.ObjectId()
     return Post.create(p)
             .then(resposta => {
                 return resposta
@@ -103,6 +104,7 @@ module.exports.addComment = (id, c) => {
                 }
                 
                 const newComment = {
+                    _id: new mongoose.Types.ObjectId(),
                     username: c.nome,
                     descricao: c.coment 
                 };
@@ -138,6 +140,18 @@ module.exports.deletePost = id => {
                 return erro
             })
 }
+
+module.exports.deleteComment = (idPost, idComment) => {
+    return Post.updateOne({_id: idPost }, 
+                { $pull: {"coments": {_id: idComment}}})
+            .then(resposta => {
+                return resposta
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 
 //module.exports.categorias = () => {
 //    return Post.distinct("produtos.categoria")

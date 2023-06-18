@@ -29,15 +29,15 @@ html
                 form.w3-padding-bottom-64(action='/perfil', method='POST')
                     p.div(style="font-size: 1vmax;")
                       strong Nome: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='nome', type='text', placeholder=user.username)
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='nome', type='text', placeholder=user.username, readonly)
                     p.div(style="font-size: 1vmax;")
                       strong Email: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='email', type='text', placeholder=user.email)
-                    p.div(style="font-size: 1vmax;")
-                      strong Password: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='pass', type='password', placeholder='password')
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='email', type='text', placeholder=user.email, readonly)
                     p.div(style="font-size: 1vmax;")
                       strong Nova password: 
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='pass', type='password', placeholder='password')
+                    p.div(style="font-size: 1vmax;")
+                      strong Confirmar password: 
                     input.w3-input.w3-bar-item.w3-round-xlarge(name='npass', type='password', placeholder='password')
                     p.div(style="font-size: 1vmax;")
                       strong Filiação: 
