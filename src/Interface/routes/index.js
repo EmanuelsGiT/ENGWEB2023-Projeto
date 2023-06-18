@@ -58,12 +58,33 @@ router.get('/home/inquiricao/:id', function(req, res) {
     token = req.cookies.token
   axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id +"?token=" + token)
     .then(response => {
-      res.render('inquiricao', { inquiricao: response.data, d: data });
+      axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+        .then(response2 => {
+          res.render('inquiricao', { inquiricao: response.data, user: response2.data.dados, d: data });
+        })
+        .catch(err => {
+          res.render('error', {error: err})
+        })
     })
     .catch(err => {
       res.render('error', {error: err})
     })
 });
+
+
+router.get('/home/inquiricao/delete/:id', function(req,res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  axios.delete(env.apiAccessPoint + "/inquiricoes/" + req.params.id + "?token=" + token)
+    .then(response => {
+      res.redirect('/home/inquiricoes');
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+})
+
 
 router.get('/home/perfil', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
