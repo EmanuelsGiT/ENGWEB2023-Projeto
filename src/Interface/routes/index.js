@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var env = require('../config/env')
-var axios = require('axios');
+var Controller = require('../controllers/controllers');
 const { response } = require('../../API/app');
 
 
@@ -16,25 +15,25 @@ router.get('/home/inquiricoes', function(req, res) {
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
   
-  if (req.query.page <= 0) res.render('error', {error: err})
-  const currentPage = parseInt(req.query.page) || 1;
+  const page = req.query.page
+  if (page <= 0) res.render('error', {error: err})
+  const currentPage = parseInt(page) || 1;
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   
   
   if(req.query.searchType && req.query.search) {
-    axios.get(env.apiAccessPoint+"/inquiricoes?searchType=" + req.query.searchType + "&search=" + req.query.search + "&page="+ req.query.page +"&token=" + token)
+    Controller.getInquiricoesSearchPage(req.query.searchType, req.query.search, page, token)
       .then(response => {
-        axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+        Controller.getCurrentUser(token)
           .then(response2 => {
-            if (currentPage > response.data.numPages) res.render('error', {error: err})
-            console.log(response.data.numPages)
-            const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
-            res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
+            if (currentPage > response.numPages) res.render('error', {error: err})
+            const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+            res.render('inquiricoesUser', { inquiricoes: response.inquiricoes, 
                                             prevIndex: prevPage, 
                                             nextIndex: nextPage,
                                             searcht: req.query.searchType,
                                             search: req.query.search,
-                                            user: response2.data.dados });
+                                            user: response2.dados });
           })
           .catch(err => {
             res.render('error', {error: err})
@@ -44,20 +43,20 @@ router.get('/home/inquiricoes', function(req, res) {
         res.render('error', {error: err})
       })
   } else {
-    axios.get(env.apiAccessPoint+"/inquiricoes?page="+ req.query.page +"&token=" + token)
+    Controller.getInquiricoesPage(page, token)
       .then(response => {
-        axios.get('http://localhost:8002/users/profile' + "?token=" + token)
-        .then(response2 => {
-          if (currentPage > response.data.numPages) res.render('error', {error: err})
-          const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
-          res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
-                                          prevIndex: prevPage, 
-                                          nextIndex: nextPage,
-                                          user: response2.data.dados });
-        })
-        .catch(err => {
-          res.render('error', {error: err})
-        })
+        Controller.getCurrentUser(token)
+          .then(response2 => {
+            if (currentPage > response.numPages) res.render('error', {error: err})
+            const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+            res.render('inquiricoesUser', { inquiricoes: response.inquiricoes, 
+                                            prevIndex: prevPage, 
+                                            nextIndex: nextPage,
+                                            user: response2.dados });
+          })
+          .catch(err => {
+            res.render('error', {error: err})
+          })
 
       })
       .catch(err => {
@@ -71,11 +70,11 @@ router.get('/home/inquiricao/:id', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id +"?token=" + token)
+  Controller.getInquiricao(req.params.id, token)
     .then(response => {
-      axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+      Controller.getCurrentUser(token)
         .then(response2 => {
-          res.render('inquiricao', { inquiricao: response.data, user: response2.data.dados, d: data });
+          res.render('inquiricao', { inquiricao: response, user: response2.dados, d: data });
         })
         .catch(err => {
           res.render('error', {error: err})
@@ -91,7 +90,7 @@ router.get('/home/inquiricao/delete/:id', function(req,res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.delete(env.apiAccessPoint + "/inquiricoes/" + req.params.id + "?token=" + token)
+  Controller.deleteInquiricao(req.params.id, token)
     .then(response => {
       res.redirect('/home/inquiricoes');
     })
@@ -106,9 +105,9 @@ router.get('/home/perfil', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+  Controller.getCurrentUser(token)
     .then(response => {
-      res.render('perfil', { user: response.data.dados, d: data });
+      res.render('perfil', { user: response.dados, d: data });
     })
     .catch(err => {
       res.render('error', {error: err})
@@ -120,18 +119,19 @@ router.get('/home', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  
-  if (req.query.page <= 0) res.render('error', {error: err})
-  const currentPage = parseInt(req.query.page) || 1;
+
+  const page = req.query.page
+  if (page <= 0) res.render('error', {error: err})
+  const currentPage = parseInt(page) || 1;
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   
   if(req.query.searchType && req.query.search) {
-    axios.get(env.apiAccessPoint+"/posts?searchType=" + req.query.searchType + "&search=" + req.query.search + "&page="+ req.query.page +"&token=" + token)
+    Controller.getPostsSearchPage(req.query.searchType, req.query.search, page, token)
       .then(response => {
-        if (currentPage > response.data.numPages) res.render('error', {error: err})
-        console.log(response.data.numPages)
-        const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
-        res.render('homeUser', { posts: response.data.posts, 
+        if (currentPage > response.numPages) res.render('error', {error: err})
+        console.log(response.numPages)
+        const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+        res.render('homeUser', { posts: response.posts, 
                                         prevIndex: prevPage, 
                                         nextIndex: nextPage,
                                         searcht: req.query.searchType,
@@ -141,24 +141,25 @@ router.get('/home', function(req, res) {
         res.render('error', {error: err})
       })
   } else {
-  axios.get(env.apiAccessPoint+"/posts?page=" + req.query.page + "&token=" + token)
-    .then(response => {    
-      if (currentPage > response.data.numPages) res.render('error', {error: err})
-      const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
-      res.render('homeUser', { posts: response.data.posts, 
-                                prevIndex: prevPage, 
-                                nextIndex: nextPage });
-    })
-    .catch(err => {
-      res.render('error', {error: err})
-    })
+    Controller.getPostsPage(page, token)
+      .then(response => {
+        if (currentPage > response.numPages) res.render('error', {error: err})
+        const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+        res.render('homeUser', { posts: response.posts, 
+                                  prevIndex: prevPage, 
+                                  nextIndex: nextPage });
+      })
+      .catch(err => {
+        res.render('error', {error: err})
+      })
   }
 });
+
 router.get('/home/post/:idPost/delete/:idComment', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.delete(env.apiAccessPoint + "/posts/" + req.params.idPost + "/comments/" + req.params.idComment + "?token=" + token)
+  Controller.deletePostComment(req.params.idPost, req.params.idComment, token)
     .then(response => {
       res.redirect('/home/post/' + req.params.idPost)
     })
@@ -172,7 +173,7 @@ router.get('/home/post/delete/:id', function(req,res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.delete(env.apiAccessPoint + "/posts/" + req.params.id + "?token=" + token)
+  Controller.deletePost(req.params.id, token)
     .then(response => {
       res.redirect('/home');
     })
@@ -186,11 +187,11 @@ router.route('/home/post/:id').get(function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.get(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token)
+  Controller.getPost(req.params.id, token)
     .then(response => {
-      axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+      Controller.getCurrentUser(token)
         .then(response2 => {
-          res.render('post', { post: response.data, user: response2.data.dados, d: data });
+          res.render('post', { post: response, user: response2.dados, d: data });
         })
         .catch(err => {
           res.render('error', {error: err})
@@ -203,7 +204,7 @@ router.route('/home/post/:id').get(function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.post(env.apiAccessPoint+"/posts/" + req.params.id + "?token=" + token, req.body)
+  Controller.newPostComment(req.params.id, token, req.body)
   .then(response => {
     res.redirect('/home/post/' + req.params.id)
   })
@@ -217,11 +218,11 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.get(env.apiAccessPoint + "/inquiricoes/" + req.params.id + "?token=" + token)
+  Controller.getInquiricao(req.params.id, token)
     .then(response => {
-      axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+      Controller.getCurrentUser(token)
         .then(response2 => {
-          res.render('newPost', {inq: response.data, d:date, user: response2.data.dados});
+          res.render('newPost', {inq: response, d:date, user: response2.dados});
         })
         .catch(err => {
           res.render('error', {error: err})
@@ -234,7 +235,7 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  axios.post(env.apiAccessPoint + "/posts/" + "?token=" + token, req.body)
+  Controller.newPost(token, req.body)
   .then(response => {
     res.redirect('/home/inquiricao/' + req.params.id)
   })
@@ -247,7 +248,7 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
 //  var data = new Date().toISOString().substring(0,19)
 //  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id)
 //    .then(response => {
-//      res.render('inquiricao', { inquiricao: response.data, d: data });
+//      res.render('inquiricao', { inquiricao: response, d: data });
 //    })
 //    .catch(err => {
 //      res.render('error', {error: err})
@@ -272,10 +273,10 @@ router.get('/login', function(req, res){
 })
 
 router.post('/login', function(req, res){
-  axios.post('http://localhost:8002/users/login', req.body)
+  Controller.login(req.body)
     .then(response => {
       console.log(response)
-      res.cookie('token', response.data.token)
+      res.cookie('token', response.token)
       console.log("Entraste crlh!!!!")
       res.redirect('/home')
     })
@@ -298,21 +299,21 @@ router.get('/register', function(req, res){
 })
 
 router.post('/register', function(req, res){
-  axios.post('http://localhost:8002/users/register', req.body)
+  Controller.addUser(req.body)
     .then(response => {
-      //res.cookie('token', response.data.token)
+      //res.cookie('token', response.token)
       res.redirect('/')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})
     })
 })
-
+/*
 // facebook
 router.get('/login/facebook', function(req, res){
   axios.get('http://localhost:8002/auth/facebook')
     .then(response => {
-      res.cookie('token', response.data.token)
+      res.cookie('token', response.token)
       console.log("Entraste crlh!!!!")
       res.redirect('/home')
     })
@@ -325,7 +326,7 @@ router.get('/login/facebook', function(req, res){
 router.get('/login/google', function(req, res){
   axios.get('http://localhost:8002/auth/google')
     .then(response => {
-      res.cookie('token', response.data.token)
+      res.cookie('token', response.token)
       console.log("interface index")
       res.redirect('/home')
     })
@@ -333,5 +334,5 @@ router.get('/login/google', function(req, res){
       res.render('error', {error: e, message: "Credenciais inválidas"})
     })
 })
-
+*/
 module.exports = router;
