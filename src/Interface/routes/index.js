@@ -65,6 +65,21 @@ router.get('/home/inquiricoes', function(req, res) {
   }
 });
 
+router.route('/home/inquiricoes/newInquiricao').get(function(req, res) {
+  res.render('newInquiricao')
+}).post(function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  Controller.newInquiricao(token, req.body)
+  .then(response => {
+    res.redirect('/home/inquiricoes')
+  })
+  .catch(err => {
+    res.render('error', {error: err})
+  })
+})
+
 router.get('/home/inquiricao/:id', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
   var token = ""

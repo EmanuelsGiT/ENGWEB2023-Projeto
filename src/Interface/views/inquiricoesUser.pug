@@ -17,7 +17,7 @@ html
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
           if user.level == '1'
-            a.w3-bar-item.w3-button.w3-right(href='/') Adicionar inquiricão
+            a.w3-bar-item.w3-button.w3-right(href='/home/inquiricoes/newInquiricao') Adicionar inquiricão
           form.w3-center(action='/home/inquiricoes' style='margin-top: 2px')
             select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
               option(value='nome') Nome
