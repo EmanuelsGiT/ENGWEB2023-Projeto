@@ -88,7 +88,10 @@ var inquiricoesSchema = new mongoose.Schema({
     ProcessInfoDate: String,
     OtherDescriptiveData: String,
     ProcessInfo: String,
-    Filiacao: String
+    Filiacao: [{
+        Id: String,
+        Title: String
+    }]
 });
 
 module.exports = mongoose.model('inquiricoes', inquiricoesSchema)

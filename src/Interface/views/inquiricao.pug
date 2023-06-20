@@ -8,57 +8,57 @@ html
     link(rel='stylesheet' href='/stylesheets/w3.css')
     link(rel='stylesheet' href='/stylesheets/home.css')
   body
-      .w3-top.w3-display-topmiddle
-        .w3-bar.w3-theme.w3-left-align.w3-large.w3-padding-16
-          a.w3-bar-item.w3-button.w3-amber.w3-margin-left(href='/home') Inquirições de Génere
-          a.w3-bar-item.w3-button(href='/home/perfil') Perfil
-          a.w3-bar-item.w3-button(href='/home') Posts
-          a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
-          a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
-          form.w3-center(action='/home/inquiricoes' style='margin-top: 2px')
-            select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
-              option(value='nome') Nome
-              option(value='lugar') Lugar
-              option(value='data') Data
-            input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='Search')
-            button.w3-bar-item.w3-theme.w3-button(type="submit") Search
-      .w3-row
-        .div(class="w3-col m1").w3-padding-top-64
-        .div(class="w3-col m10").w3-container.w3-padding-top-64.post-box.w3-margin-left
-          .w3-padding-top-32.div(style="font-size: 0.9vmax;")
-            .w3-border.w3-border-black.w3-margin-left.w3-container.div(style='background: rgba(219, 219, 219, 0.5);')
-                  if user.level == '1'
-                    a.w3-right.w3-margin.w3-button.w3-red.w3-round.w3-hover(href=`http://localhost:8000/home/inquiricao/delete/${inquiricao._id}`) Eliminar
-                  a.w3-right.w3-margin.w3-button.w3-grey.w3-round.w3-hover(href=`http://localhost:8000/home/inquiricao/${inquiricao._id}/newpost`) Criar Post           
-                  p.w3-topleft Record
-                  h5(style="font-size: 3vmax; font-weight:bold") Description Record
-                  p
-                    span Record
-                    span(style='letter-spacing: 16vmax;')  
-                    span
-                      | #{inquiricao.CompleteUnitId} - #{inquiricao.UnitTitle}
-          
-            table.w3-margin-left
-              - var values = ['DescriptionLevel','EntityType','UnitId','RepositoryCode','CountryCode','UnitTitleType','AlternativeTitle','NormalizedFormsName', 'OtherFormsName', 'UnitDateInitial', 'UnitDateFinal', 'UnitDateInitialCertainty','UnitDateFinalCertainty', 'AllowUnitDatesInference', 'AccumulationDates', 'UnitDateBulk', 'UnitDateNotes','Dimensions', 'AllowExtentsInference', 'Repository', 'Producer', 'Author', 'MaterialAuthor', 'Contributor','Recipient', 'BiogHist', 'GeogName', 'LegalStatus', 'Functions', 'Authorities', 'InternalStructure','GeneralContext', 'CustodHist', 'AcqInfo', 'Classifier', 'ScopeContent', 'Filiacao', 'Terms', 'DocumentalTradition','DocumentalTypology', 'Marks', 'Monograms', 'Stamps', 'Inscriptions', 'Signatures', 'Appraisal','AppraisalElimination', 'AppraisalEliminationDate', 'Accruals', 'Arrangement', 'AccessRestrict','UseRestrict', 'PhysLoc', 'OriginalNumbering', 'PreviousLoc', 'LangMaterial', 'PhysTech', 'OtherFindAid','ContainerTypeTerm', 'OriginalsLoc', 'AltFormAvail', 'RelatedMaterial', 'Note', 'AllowTextualContentInference','TextualContent', 'RetentionDisposalDocumentState', 'ApplySelectionTable', 'RetentionDisposalPolicy','RetentionDisposalReference', 'RetentionDisposalClassification', 'RetentionDisposalPeriod','RetentionDisposalApplyDate', 'RetentionDisposalFinalDestination', 'RetentionDisposalObservations','DescRules', 'Revised', 'Published', 'Available', 'Highlighted', 'Creator', 'Created', 'Username','ProcessInfoDate', 'OtherDescriptiveData', 'ProcessInfo']
-              each property in values
-                if property == 'Filiacao'
-                  tr.w3-border.div(style='background: rgba(219, 219, 219, 0.5);')
-                    td.w3-margin.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
-                    td.w3-margin.w3-border.w3-border-black.w3-center 
-                      form#inquiricaoForm(action='http://localhost:8000/home/inquiricoes', method='GET')
-                        input(type='hidden', name='searchType', value='nome')
-                        input(type='hidden', name='search', value=`${inquiricao[property]}`)
-                        button(type='submit') #{inquiricao[property]}
-                else
-                  tr.w3-border.div(style='background: rgba(219, 219, 219, 0.5);')
-                    td.w3-margin.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
-                    td.w3-margin.w3-border.w3-border-black.w3-center #{inquiricao[property]}
+    .w3-top.w3-display-topmiddle
+      .w3-bar.w3-theme.w3-left-align.w3-large.w3-padding-16
+        a.w3-bar-item.w3-button.w3-amber.w3-margin-left(href='/home') Inquirições de Génere
+        a.w3-bar-item.w3-button(href='/home/perfil') Perfil
+        a.w3-bar-item.w3-button(href='/home') Posts
+        a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
+        a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
+        form.w3-center(action='/home/inquiricoes' style='margin-top: 2px')
+          select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
+            option(value='nome') Nome
+            option(value='lugar') Lugar
+            option(value='data') Data
+          input.w3-input.w3-bar-item.w3-round-xlarge(name='search', type='text', placeholder='Search')
+          button.w3-bar-item.w3-theme.w3-button(type="submit") Search
+    .w3-row
+      .div(class="w3-col m1").w3-padding-top-64
+      .div(class="w3-col m10").w3-container.w3-padding-top-64.post-box.w3-margin-left
+        .w3-padding-top-32.div(style="font-size: 0.9vmax;")
+          .w3-border.w3-border-black.w3-margin-left.w3-container.div(style='background: rgba(219, 219, 219, 0.5);')
+                if user.level == '1'
+                  a.w3-right.w3-margin.w3-button.w3-red.w3-round.w3-hover(href=`http://localhost:8000/home/inquiricao/delete/${inquiricao._id}`) Eliminar
+                a.w3-right.w3-margin.w3-button.w3-grey.w3-round.w3-hover(href=`http://localhost:8000/home/inquiricao/${inquiricao._id}/newpost`) Criar Post           
+                p.w3-topleft Record
+                h5(style="font-size: 3vmax; font-weight:bold") Description Record
+                p
+                  span Record
+                  span(style='letter-spacing: 16vmax;')  
+                  span
+                    | #{inquiricao.CompleteUnitId} - #{inquiricao.UnitTitle}
 
-        .div(class="w3-col m1").w3-padding-top-64
+          table.w3-margin-left
+            - var values = ['DescriptionLevel','EntityType','UnitId','RepositoryCode','CountryCode','UnitTitleType','AlternativeTitle','NormalizedFormsName', 'OtherFormsName', 'UnitDateInitial', 'UnitDateFinal', 'UnitDateInitialCertainty','UnitDateFinalCertainty', 'AllowUnitDatesInference', 'AccumulationDates', 'UnitDateBulk', 'UnitDateNotes','Dimensions', 'AllowExtentsInference', 'Repository', 'Producer', 'Author', 'MaterialAuthor', 'Contributor','Recipient', 'BiogHist', 'GeogName', 'LegalStatus', 'Functions', 'Authorities', 'InternalStructure','GeneralContext', 'CustodHist', 'AcqInfo', 'Classifier', 'ScopeContent', 'Filiacao', 'Terms', 'DocumentalTradition','DocumentalTypology', 'Marks', 'Monograms', 'Stamps', 'Inscriptions', 'Signatures', 'Appraisal','AppraisalElimination', 'AppraisalEliminationDate', 'Accruals', 'Arrangement', 'AccessRestrict','UseRestrict', 'PhysLoc', 'OriginalNumbering', 'PreviousLoc', 'LangMaterial', 'PhysTech', 'OtherFindAid','ContainerTypeTerm', 'OriginalsLoc', 'AltFormAvail', 'RelatedMaterial', 'Note', 'AllowTextualContentInference','TextualContent', 'RetentionDisposalDocumentState', 'ApplySelectionTable', 'RetentionDisposalPolicy','RetentionDisposalReference', 'RetentionDisposalClassification', 'RetentionDisposalPeriod','RetentionDisposalApplyDate', 'RetentionDisposalFinalDestination', 'RetentionDisposalObservations','DescRules', 'Revised', 'Published', 'Available', 'Highlighted', 'Creator', 'Created', 'Username','ProcessInfoDate', 'OtherDescriptiveData', 'ProcessInfo']
+            each property in values
+              if property == 'Filiacao'
+                tr.w3-border.div(style='background: rgba(219, 219, 219, 0.5);')
+                  td.w3-margin.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
+                  td.w3-margin.w3-border.w3-border-black.w3-center
+                    each link in inquiricao.Filiacao
+                      a(href=`/home/inquiricao/${link.Id}`) #{link.Title}
+                      br
+                        
+              else
+                tr.w3-border.div(style='background: rgba(219, 219, 219, 0.5);')
+                  td.w3-margin.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
+                  td.w3-margin.w3-border.w3-border-black.w3-center #{inquiricao[property]}
+  
+      .div(class="w3-col m1").w3-padding-top-64
 
-      .w3-display-bottom
-        footer.w3-center
-          .w3-container.w3-theme-l1
-            p
-              | Powered by 
-              a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+    .w3-display-bottom
+      footer.w3-center
+        .w3-container.w3-theme-l1
+          p
+            | Powered by 
+            a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css

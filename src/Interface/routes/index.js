@@ -24,14 +24,21 @@ router.get('/home/inquiricoes', function(req, res) {
   if(req.query.searchType && req.query.search) {
     axios.get(env.apiAccessPoint+"/inquiricoes?searchType=" + req.query.searchType + "&search=" + req.query.search + "&page="+ req.query.page +"&token=" + token)
       .then(response => {
-        if (currentPage > response.data.numPages) res.render('error', {error: err})
-        console.log(response.data.numPages)
-        const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
-        res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
-                                        prevIndex: prevPage, 
-                                        nextIndex: nextPage,
-                                        searcht: req.query.searchType,
-                                        search: req.query.search });
+        axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+          .then(response2 => {
+            if (currentPage > response.data.numPages) res.render('error', {error: err})
+            console.log(response.data.numPages)
+            const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
+            res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
+                                            prevIndex: prevPage, 
+                                            nextIndex: nextPage,
+                                            searcht: req.query.searchType,
+                                            search: req.query.search,
+                                            user: response2.data.dados });
+          })
+          .catch(err => {
+            res.render('error', {error: err})
+          })
       })
       .catch(err => {
         res.render('error', {error: err})
@@ -39,11 +46,19 @@ router.get('/home/inquiricoes', function(req, res) {
   } else {
     axios.get(env.apiAccessPoint+"/inquiricoes?page="+ req.query.page +"&token=" + token)
       .then(response => {
-        if (currentPage > response.data.numPages) res.render('error', {error: err})
-        const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
-        res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
-                                        prevIndex: prevPage, 
-                                        nextIndex: nextPage });
+        axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+        .then(response2 => {
+          if (currentPage > response.data.numPages) res.render('error', {error: err})
+          const nextPage = currentPage < response.data.numPages ? currentPage + 1 : currentPage;
+          res.render('inquiricoesUser', { inquiricoes: response.data.inquiricoes, 
+                                          prevIndex: prevPage, 
+                                          nextIndex: nextPage,
+                                          user: response2.data.dados });
+        })
+        .catch(err => {
+          res.render('error', {error: err})
+        })
+
       })
       .catch(err => {
         res.render('error', {error: err})
