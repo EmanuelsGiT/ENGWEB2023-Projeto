@@ -112,4 +112,5 @@ body {
     background-image: linear-gradient(135deg, #70F570 10%, #49C628 100%);
   }
   
-  
+  .w3-select{padding:9px 0;width:100%;border:none;border-bottom:1px solid #ccc}
+  .w3-border{border:1px solid #ccc!important}

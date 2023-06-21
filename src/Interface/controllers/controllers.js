@@ -41,6 +41,16 @@ module.exports.addUser = body => {
             })
 }
 
+//module.exports.updateUser = (id, token) => {
+//    return axios.delete('http://localhost:8002/users/' + id + "?token=" + token)
+//            .then(resposta => {
+//                return resposta.data
+//            })
+//            .catch(erro => {
+//                return erro
+//            })
+//}
+
 module.exports.deleteUser = (id, token) => {
     return axios.delete('http://localhost:8002/users/' + id + "?token=" + token)
             .then(resposta => {

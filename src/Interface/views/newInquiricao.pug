@@ -35,10 +35,10 @@ html
               - var values = ['DescriptionLevel','EntityType','UnitId','RepositoryCode','CountryCode','UnitTitleType','AlternativeTitle','NormalizedFormsName', 'OtherFormsName', 'UnitDateInitial', 'UnitDateFinal', 'UnitDateInitialCertainty','UnitDateFinalCertainty', 'AllowUnitDatesInference', 'AccumulationDates', 'UnitDateBulk', 'UnitDateNotes','Dimensions', 'AllowExtentsInference', 'Repository', 'Producer', 'Author', 'MaterialAuthor', 'Contributor','Recipient', 'BiogHist', 'GeogName', 'LegalStatus', 'Functions', 'Authorities', 'InternalStructure','GeneralContext', 'CustodHist', 'AcqInfo', 'Classifier', 'ScopeContent', 'Filiacao', 'Terms', 'DocumentalTradition','DocumentalTypology', 'Marks', 'Monograms', 'Stamps', 'Inscriptions', 'Signatures', 'Appraisal','AppraisalElimination', 'AppraisalEliminationDate', 'Accruals', 'Arrangement', 'AccessRestrict','UseRestrict', 'PhysLoc', 'OriginalNumbering', 'PreviousLoc', 'LangMaterial', 'PhysTech', 'OtherFindAid','ContainerTypeTerm', 'OriginalsLoc', 'AltFormAvail', 'RelatedMaterial', 'Note', 'AllowTextualContentInference','TextualContent', 'RetentionDisposalDocumentState', 'ApplySelectionTable', 'RetentionDisposalPolicy','RetentionDisposalReference', 'RetentionDisposalClassification', 'RetentionDisposalPeriod','RetentionDisposalApplyDate', 'RetentionDisposalFinalDestination', 'RetentionDisposalObservations','DescRules', 'Revised', 'Published', 'Available', 'Highlighted', 'Creator', 'Created', 'Username','ProcessInfoDate', 'OtherDescriptiveData', 'ProcessInfo']
               each property in values                        
                 tr.w3-border.div(style='background: rgba(219, 219, 219, 0.5);')
-                  td.w3-margin.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
-                  td.w3-margin.w3-border.w3-border-black.w3-center
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name=`${property}`, type='text')
-              button.w3-bar-item.w3-grey.w3-button.w3-right.w3-margin.w3-round-large(type="submit") Submit
+                  td.w3-border.w3-border-black.div(style="font-weight:bold") #{[property]}
+                  td.w3-border.w3-border-black
+                    input.w3-input.w3-round-xlarge(name=`${property}`, type='text')
+              button.w3-grey.w3-button.w3-right.w3-margin.w3-round-large(type="submit") Submit
   
       .div(class="w3-col m1").w3-padding-top-64
 

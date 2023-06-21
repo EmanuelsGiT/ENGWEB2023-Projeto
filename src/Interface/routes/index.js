@@ -114,6 +114,46 @@ router.get('/home/inquiricao/delete/:id', function(req,res) {
     })
 })
 
+router.get('/home/admin', function(req, res) {
+  var data = new Date().toISOString().substring(0,19)
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+
+  Controller.getUsers(token)
+    .then(response => {
+      res.render('admin', { users: response.dados, d: data });
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+});
+
+router.get('/home/user/delete/:id', function(req,res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  Controller.deleteUser(req.params.id, token)
+    .then(response => {
+      res.redirect('/home/admin');
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+})
+
+router.get('/home/user/update/:id', function(req,res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  Controller.updateUser(req.params.id, token)
+    .then(response => {
+      res.redirect('/home/admin');
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+})
 
 router.get('/home/perfil', function(req, res) {
   var data = new Date().toISOString().substring(0,19)
@@ -160,9 +200,16 @@ router.get('/home', function(req, res) {
       .then(response => {
         if (currentPage > response.numPages) res.render('error', {error: err})
         const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
-        res.render('homeUser', { posts: response.posts, 
-                                  prevIndex: prevPage, 
-                                  nextIndex: nextPage });
+        Controller.getCurrentUser(token)
+          .then(resp => {
+            res.render('homeUser', { posts: response.posts, 
+                                   user: resp.dados, 
+                                   prevIndex: prevPage, 
+                                   nextIndex: nextPage });
+          })
+          .catch(err => {
+            res.render('error', {error: err})
+          })
       })
       .catch(err => {
         res.render('error', {error: err})

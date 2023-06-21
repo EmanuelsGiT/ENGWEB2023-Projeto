@@ -27,9 +27,9 @@ html
       .div(class="w3-col m10").w3-container.w3-padding-top-64.post-box.w3-margin-left
         .w3-padding-top-32.div(style="font-size: 0.9vmax;")
           .w3-border.w3-border-black.w3-margin-left.w3-container.div(style='background: rgba(219, 219, 219, 0.5);')
-                if user.level == '1'
-                  a.w3-right.w3-margin.w3-button.w3-red.w3-round.w3-hover(href=`http://localhost:8000/home/inquiricao/delete/${inquiricao._id}`) Eliminar
-                a.w3-right.w3-margin.w3-button.w3-grey.w3-round.w3-hover(href=`http://localhost:8000/home/inquiricao/${inquiricao._id}/newpost`) Criar Post           
+                if user.level == 'admin'
+                  a.w3-right.w3-margin.w3-button.w3-red.w3-round.w3-hover(href=`/home/inquiricao/delete/${inquiricao._id}`) Eliminar
+                a.w3-right.w3-margin.w3-button.w3-grey.w3-round.w3-hover(href=`/home/inquiricao/${inquiricao._id}/newpost`) Criar Post           
                 p.w3-topleft Record
                 h5(style="font-size: 3vmax; font-weight:bold") Description Record
                 p

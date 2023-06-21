@@ -16,6 +16,8 @@ html
           a.w3-bar-item.w3-button(href='/home') Posts
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
+          if user.level == 'admin'
+            a.w3-bar-item.w3-button.w3-right(href='/home/admin') Administração
           form.w3-center(action='/home' style='margin-top: 2px')
             select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
               option(value='nome') Nome
