@@ -1,5 +1,9 @@
 instrucoes de arranque
 
+docker-compose up
+
+docker system prune -a
+
 BD:
     API:
     - mudanca de CSV para JSON e ID para _id (converter.py)

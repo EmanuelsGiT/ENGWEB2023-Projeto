@@ -7,7 +7,9 @@ var LocalStrategy = require('passport-local').Strategy
 var mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI, 
+var mongoDB = 'mongodb://127.0.0.1/Project';
+
+mongoose.connect(mongoDB, 
       { useNewUrlParser: true,
         useUnifiedTopology: true,
         serverSelectionTimeoutMS: 5000});

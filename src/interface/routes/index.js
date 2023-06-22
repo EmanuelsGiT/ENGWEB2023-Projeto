@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Controller = require('../controllers/controllers');
-const { response } = require('../../API/app');
-
 
 /* GET home page. */
 router.get('/', function(req, res){
@@ -202,6 +200,7 @@ router.get('/home', function(req, res) {
         const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
         Controller.getCurrentUser(token)
           .then(resp => {
+            console.log(resp.dados)
             res.render('homeUser', { posts: response.posts, 
                                    user: resp.dados, 
                                    prevIndex: prevPage, 
@@ -339,7 +338,6 @@ router.post('/login', function(req, res){
     .then(response => {
       console.log(response)
       res.cookie('token', response.token)
-      console.log("Entraste crlh!!!!")
       res.redirect('/home')
     })
     .catch(e =>{

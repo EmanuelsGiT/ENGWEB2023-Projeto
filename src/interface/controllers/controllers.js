@@ -2,7 +2,7 @@ var axios = require('axios')
 var env = require('../config/env')
 
 module.exports.login = body => {
-    return axios.post('http://localhost:8002/users/login', body)
+    return axios.post(env.authAccessPoint+'/login', body)
             .then(resposta => {
                 return resposta.data
             })
@@ -12,7 +12,7 @@ module.exports.login = body => {
 }
 
 module.exports.getUsers = token => {
-    return axios.get('http://localhost:8002/users/' + "?token=" + token)
+    return axios.get(env.authAccessPoint+'/' + "?token=" + token)
             .then(resposta => {
                 return resposta.data
             })
@@ -22,7 +22,7 @@ module.exports.getUsers = token => {
 }
 
 module.exports.getCurrentUser = token => {
-    return axios.get('http://localhost:8002/users/profile' + "?token=" + token)
+    return axios.get(env.authAccessPoint+'/profile' + "?token=" + token)
             .then(resposta => {
                 return resposta.data
             })
@@ -32,7 +32,7 @@ module.exports.getCurrentUser = token => {
 }
 
 module.exports.addUser = body => {
-    return axios.post('http://localhost:8002/users/register', body)
+    return axios.post(env.authAccessPoint+'/register', body)
             .then(resposta => {
                 return resposta.data
             })
@@ -42,7 +42,7 @@ module.exports.addUser = body => {
 }
 
 //module.exports.updateUser = (id, token) => {
-//    return axios.delete('http://localhost:8002/users/' + id + "?token=" + token)
+//    return axios.delete(env.authAccessPoint+'/' + id + "?token=" + token)
 //            .then(resposta => {
 //                return resposta.data
 //            })
@@ -52,7 +52,7 @@ module.exports.addUser = body => {
 //}
 
 module.exports.deleteUser = (id, token) => {
-    return axios.delete('http://localhost:8002/users/' + id + "?token=" + token)
+    return axios.delete(env.authAccessPoint+'/' + id + "?token=" + token)
             .then(resposta => {
                 return resposta.data
             })

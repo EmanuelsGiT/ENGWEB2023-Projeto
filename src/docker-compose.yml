@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  interface:
+    build:
+      context: ./interface
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 8001:8001
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/Project
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - 8002:8002
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/Project
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb-api-data:/data/db
+      - ./inquiricoes.json:/docker-entrypoint-initdb.d/inquiricoes.json
+      - ./utilizadores.json:/docker-entrypoint-initdb.d/utilizadores.json
+      - ./posts.json:/docker-entrypoint-initdb.d/posts.json
+
+volumes:
+  mongodb-interface-data:
+  mongodb-api-data:
+  mongodb-auth-data:
