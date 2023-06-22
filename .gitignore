@@ -7,3 +7,5 @@ db.json
 new_db.json
 new_db2.json
 inquiricoes.json
+src/posts.json
+src/users.json
