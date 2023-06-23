@@ -1,46 +1,53 @@
 version: '3'
-
 services:
   interface:
-    build:
-      context: ./interface
-      dockerfile: Dockerfile
+    container_name: interfac
+    build: ./interface
     ports:
       - 8000:8000
+    networks:
+      - projectnet
 
   api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
+    container_name: ap
+    build: ./api
     ports:
       - 8001:8001
     depends_on:
       - mongodb
     environment:
       - MONGODB_URL=mongodb://mongodb:27017/Project
+    networks:
+      - projectnet
 
   auth:
-    build:
-      context: ./auth
-      dockerfile: Dockerfile
+    container_name: aut
+    build: ./auth
     ports:
       - 8002:8002
     depends_on:
       - mongodb
     environment:
       - MONGODB_URL=mongodb://mongodb:27017/Project
+    networks:
+      - projectnet
 
   mongodb:
+    container_name: project-mongodb
     image: mongo
     ports:
       - 27018:27017
     volumes:
-      - mongodb-api-data:/data/db
-      - ./inquiricoes.json:/docker-entrypoint-initdb.d/inquiricoes.json
-      - ./utilizadores.json:/docker-entrypoint-initdb.d/utilizadores.json
-      - ./posts.json:/docker-entrypoint-initdb.d/posts.json
+      - ./data/inquiricoes.json:/data/db/inquiricoes.json
+      - ./data/users.json:/data/db/users.json
+      - ./data/posts.json:/data/db/posts.json
+    
+    networks:
+      - projectnet
 
+networks:
+  projectnet:
+    name: projectnet
+    driver: bridge
 volumes:
-  mongodb-interface-data:
-  mongodb-api-data:
-  mongodb-auth-data:
+  projectData:
