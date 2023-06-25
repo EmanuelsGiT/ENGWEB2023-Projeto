@@ -17,6 +17,9 @@ html
           a.w3-bar-item.w3-button(href='/home') Posts
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
+          a.w3-bar-item.w3-button.w3-right(href='/home/inquiricoes/newInquiricao') Adicionar inquiricão
+          a.w3-bar-item.w3-button.w3-right(href='/register') Adicionar novo user
+          
           form.w3-center(action='/home' style='margin-top: 2px')
             select.w3-select.w3-bar-item.w3-theme.w3-margin-right(name='searchType')
               option(value='nome') Nome
@@ -26,8 +29,6 @@ html
 
       h5.w3-padding-top-64(style="font-size: 5vmax;") Administração
       .w3-content
-        a.w3-grey.w3-bar-item.w3-button.w3-right.w3-round-large(href='/register') Adicionar novo user
-        
         each user in users
           .w3-row
             a.w3-right.w3-red.w3-button.w3-margin.w3-round-large(href=`/home/user/delete/${user._id}`) X

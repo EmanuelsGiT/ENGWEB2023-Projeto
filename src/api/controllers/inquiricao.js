@@ -101,6 +101,13 @@ module.exports.getPesquisa = (type, searchn, pageIndex) => {
 }
 
 module.exports.addInquiricao = l => {
+
+    const resul = Inquiricao.find({}, { _id: 1 }).sort({ _id: -1 }).limit(1)
+    const currentId = parseInt(resul[0],10);
+    const newID = (currentId + 1).toString();
+    console.log(newID);
+    l._id = newID;
+        
     return Inquiricao.create(l)
             .then(resposta => {
                 return resposta

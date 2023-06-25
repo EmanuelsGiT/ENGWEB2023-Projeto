@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Inquiricoes = require('../controllers/inquiricao')
 var Posts = require('../controllers/posts')
+var Sugestoes = require('../controllers/sugestoes')
 
 // GET: os vários pedidos Inquiricoes
 router.get('/api/inquiricoes', function(req, res, next) {
@@ -149,7 +150,53 @@ router.delete('/api/posts/:idPost', function(req, res) {
     })
 })
 
+// GET: sugestao
+router.get('/api/sugestoes/:id', function(req, res) {
+  Sugestoes.getSugestaoID(req.params.id)
+    .then(sugestao => {
+      res.jsonp(sugestao)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na obtenção da sugestao"})
+    })
+});
 
+router.get('/api/sugestoes', function(req, res, next) {
+  Sugestoes.getSugestoesPage(parseInt(req.query.page))
+    .then(response => {
+      Sugestoes.getSugestoesLen()
+        .then(len => {
+          const numPages_ = Math.ceil(len / 10);
+          res.jsonp({ Sugestoes: response, numPages: numPages_ })
+        })
+        .catch(erro => {
+          res.render('error', {error: erro, message: "Erro na obtenção da len das sugestoes"})
+        })
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na obtenção das sugestoes"})
+    })
+})
+
+router.delete('/api/sugestoes/:idSugestao', function(req, res) {
+  Sugestoes.deleteSugestao(req.params.idSugestao)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro no delete de uma sugestao"})
+    })
+})
+
+router.post('/api/sugestoes/', function(req, res) {
+  Sugestoes.addSugestao(req.body)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na inserção de uma sugestao"})
+    })
+})
 
 // GET: inquiricao
 //router.get('/api/inquiricoes/:username', function(req, res) {

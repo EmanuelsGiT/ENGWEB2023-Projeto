@@ -82,7 +82,7 @@ module.exports.getInquiricoesSearchPage = (searchType, search, page, token) => {
             })
 }
 
-module.exports.newInquiricao = (body, token) => {
+module.exports.newInquiricao = (token, body) => {
     return axios.post(env.apiAccessPoint+"/inquiricoes/" + "?token=" + token, body)
             .then(resposta => {
                 return resposta.data
