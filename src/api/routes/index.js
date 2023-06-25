@@ -7,10 +7,8 @@ var Sugestoes = require('../controllers/sugestoes')
 // GET: os vários pedidos Inquiricoes
 router.get('/api/inquiricoes', function(req, res, next) {
   if(req.query.searchType && req.query.search){
-    console.log("pesquisaInquiricao")
     Inquiricoes.getPesquisa(req.query.searchType, req.query.search, parseInt(req.query.page)) 
       .then(response=>{
-        console.log(response.len)
         const numPages_ = Math.ceil(response.len / 10);
         res.jsonp({ inquiricoes: response.list, numPages: numPages_ })
       })
@@ -82,10 +80,8 @@ router.post('/api/posts/:id', function(req, res) {
 // GET: os vários pedidos Inquiricoes
 router.get('/api/posts', function(req, res, next) {
   if(req.query.searchType && req.query.search){
-    console.log("pesquisaPost")
     Posts.getPostPesquisa(req.query.searchType, req.query.search, parseInt(req.query.page)) 
       .then(response=>{
-        console.log(response.len)
         const numPages_ = Math.ceil(response.len / 10);
         res.jsonp({ posts: response.list, numPages: numPages_ })
       })

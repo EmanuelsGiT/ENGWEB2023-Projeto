@@ -120,20 +120,76 @@ module.exports.getPesquisa = (type, searchn, pageIndex) => {
 module.exports.addInquiricao = l => {
     var d = new Date().toISOString().substring(0,19)
     l.Created = d;
-    return Inquiricao.findOne({}, { _id: 1 }, { sort: { _id: -1 } })
-      .exec() 
-      .then(resu => {
-          const newId = parseInt(resu._id) + 1;
-          console.log(newId)
-        l._id = newId.toString();
-        return Inquiricao.create(l);
-      })
-      .then(resposta => {
-        return resposta;
-      })
-      .catch(erro => {
-        return erro;
-      });
+    
+    const extractName = (unitTitle) => {
+        const match = unitTitle.match(/de genere de\s+(.+?)(?:,|$)/);
+        if (match) {
+            return match[1];
+        } else {
+            return unitTitle;
+        }
+        };
+      
+    l.Filiacao = [];
+    try {
+
+        const inqs = Inquiricao.find().toArray();
+    
+        const scopeContent = l.ScopeContent || "";
+        const matchFiliacao = scopeContent.match(/Filiação:\s(.*?)(?:\s+e|,\w)/);
+        if (matchFiliacao) {
+            const filiacao = matchFiliacao[0];
+    
+            for (const inq of inqs) {
+                if (
+                    inq.ScopeContent &&
+                    inq.ScopeContent.includes(filiacao)
+                ) {
+                    l.Filiacao.push({
+                        Id: inq._id.toString(),
+                        Title: extractName(inq.UnitTitle),
+                    });
+                }
+            }
+        }
+    
+        const relatedMaterial = l.RelatedMaterial || "";
+        const matchRelatedMaterial = relatedMaterial.match(/Proc\.(\d+)/g);
+        if (matchRelatedMaterial) {
+            for (const match of matchRelatedMaterial) {
+                for (const entryData of data) {
+                    if (
+                        entryData.UnitId &&
+                        entryData.UnitId.replace(/^0+/, "") === match
+                    ) {
+                        entry.Filiacao.push({
+                        Id: entryData._id.toString(),
+                        Title: extractName(entryData.UnitTitle),
+                        });
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    finally{
+
+        return Inquiricao.findOne({}, { _id: 1 }, { sort: { _id: -1 } })
+          .exec() 
+          .then(resu => {
+              const newId = parseInt(resu._id) + 1;
+              console.log(newId)
+            l._id = newId.toString();
+            console.log("vai criar")
+            return Inquiricao.create(l);
+          })
+          .then(resposta => {
+            return resposta;
+          })
+          .catch(erro => {
+            return erro;
+          });
+    }
   };
 
 module.exports.updateInquiricao = l => {

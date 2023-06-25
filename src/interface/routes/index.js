@@ -185,7 +185,6 @@ router.get('/home', function(req, res) {
     Controller.getPostsSearchPage(req.query.searchType, req.query.search, page, token)
       .then(response => {
         if (currentPage > response.numPages) res.render('error', {error: err})
-        console.log(response.numPages)
         const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
         res.render('homeUser', { posts: response.posts, 
                                         prevIndex: prevPage, 
@@ -203,7 +202,6 @@ router.get('/home', function(req, res) {
         const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
         Controller.getCurrentUser(token)
           .then(resp => {
-            console.log(resp.dados)
             res.render('homeUser', { posts: response.posts, 
                                    user: resp.dados, 
                                    prevIndex: prevPage, 
@@ -339,7 +337,6 @@ router.get('/login', function(req, res){
 router.post('/login', function(req, res){
   Controller.login(req.body)
     .then(response => {
-      console.log(response)
       res.cookie('token', response.token)
       res.redirect('/home')
     })
