@@ -15,7 +15,7 @@ module.exports.getInquiricoes = () => {
 module.exports.getInquiricoesPage = pageIndex => {
     return Inquiricao
             .find()
-            .sort({data:-1})
+            .sort({Created:-1})
             .skip((pageIndex-1) * 10)
             .limit(10)
             .then(resposta => {
@@ -100,22 +100,41 @@ module.exports.getPesquisa = (type, searchn, pageIndex) => {
     }
 }
 
-module.exports.addInquiricao = l => {
+//module.exports.addInquiricao = l => {
+//
+//    const resu = Inquiricao.findOne({}, { _id: 1 }, { sort: { _id: -1 } })
+//
+//    const newId = resu._id++
+//
+//    let._id = newId
+//
+//    return Inquiricao.create(l)
+//            .then(resposta => {
+//                return resposta
+//            })
+//            .catch(erro => {
+//                return erro
+//            })
+//}
 
-    const resul = Inquiricao.find({}, { _id: 1 }).sort({ _id: -1 }).limit(1)
-    const currentId = parseInt(resul[0],10);
-    const newID = (currentId + 1).toString();
-    console.log(newID);
-    l._id = newID;
-        
-    return Inquiricao.create(l)
-            .then(resposta => {
-                return resposta
-            })
-            .catch(erro => {
-                return erro
-            })
-}
+module.exports.addInquiricao = l => {
+    var d = new Date().toISOString().substring(0,19)
+    l.Created = d;
+    return Inquiricao.findOne({}, { _id: 1 }, { sort: { _id: -1 } })
+      .exec() 
+      .then(resu => {
+          const newId = parseInt(resu._id) + 1;
+          console.log(newId)
+        l._id = newId.toString();
+        return Inquiricao.create(l);
+      })
+      .then(resposta => {
+        return resposta;
+      })
+      .catch(erro => {
+        return erro;
+      });
+  };
 
 module.exports.updateInquiricao = l => {
     return Inquiricao.updateOne({_id:l._id}, l)
