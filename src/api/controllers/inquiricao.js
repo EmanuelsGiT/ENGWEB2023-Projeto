@@ -1,3 +1,4 @@
+const inquiricao = require('../models/inquiricao')
 var Inquiricao = require('../models/inquiricao')
 
 module.exports.getInquiricoes = () => {
@@ -102,68 +103,7 @@ module.exports.getPesquisa = (type, searchn, pageIndex) => {
 module.exports.addInquiricao = l => {
     var d = new Date().toISOString().substring(0,19)
     l.Created = d;
-    
-    const ScopeContent = l.ScopeContent
-    const RelatedMaterial = l.RelatedMaterial
-
-    function extractScope (ScopeContent)  {
-        const match = ScopeContent.match(/Filiação:\s(.*?)(?:\s+e|,\w)/);
-        if (match) {
-            console.log(match[1])
-            Inquiricao.find({ScopeContent: { $regex: "Filiação: " + match[1] }}, { _id: 1,  UnitTitle: 1 })
-                .then(resposta => {
-                    return resposta
-                })
-                .catch(erro => {
-                    return erro
-                });
-        } else {
-            return [];
-        }
-    };
-    
-    function extractRelated (RelatedMaterial)  {
-        const match = RelatedMaterial.match(/Proc\.(\d+)/g);
-        if (match) {
-            Inquiricao.find({UnitId: { $regex: match[1] }})
-                .then(resposta => {
-                    return resposta
-                })
-                .catch(erro => {
-                    return erro
-                });
-        } else {
-            return [];
-        }
-    };
-
-    function extractNome(Nome) {
-        const match = Nome.match(/de genere de\s+(.+?)(?:,|$)/);
-        if (match) {
-            return match[1];
-        } else {
-            return "";
-        }
-    };
-        
-    const ScopeFiliacao = extractScope(ScopeContent)
-    const RelatedFiliacao = extractRelated(RelatedMaterial)
-    const Filiacao = ScopeFiliacao.concat(RelatedFiliacao)
-
-    const result = []
-
-    Filiacao.forEach(element => {
-       const nome = extractNome (element.UnitTitle)
-
-        const newEntry = {
-            Id: element._id,
-            Title: nome,
-        }
-
-        result.push(newEntry)
-    });
-        
-    l.Filiacao = result
+    l.Filiacao = []
 
     return Inquiricao.findOne({}, { _id: 1 }, { sort: { _id: -1 } })
         .exec() 
@@ -179,6 +119,37 @@ module.exports.addInquiricao = l => {
         .catch(erro => {
         return erro;
         });
+}
+
+module.exports.addFiliacao = (id, filiacao) => {
+
+    console.log(typeof filiacao.Id.toString())
+    var n = filiacao.Id.toString()
+    const title = Inquiricao.findOne({_id: n}, { UnitTitle: 1 })
+    const inq = Inquiricao.findOne({_id: id})
+    
+    return Promise.all([title, inq])
+                .then(([t,i]) => {
+                if (!i) {
+                    console.log('Post not found');
+                    return;
+                }
+                
+                const newFiliacao = {
+                    Id: n,
+                    Title: t.UnitTitle,
+                };
+                console.log(newFiliacao)
+                i.Filiacao.push(newFiliacao);
+            
+                return i.save();
+                })
+                .then(() => {
+                console.log('Filiacao added successfully');
+                })
+                .catch((err) => {
+                console.error(err);
+                });
 }
 
 module.exports.updateInquiricao = l => {

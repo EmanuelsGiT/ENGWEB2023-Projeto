@@ -304,6 +304,18 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   })
 })
 
+router.route('/home/inquiricao/:id/filiacao').post(function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  Controller.newFiliacao(token, req.params.id, req.body)
+  .then(response => {
+    res.redirect('/home/inquiricao/' + req.params.id)
+  })
+  .catch(err => {
+    res.render('error', {error: err})
+  })
+})
 
 router.route('/home/sugestoes').get(function(req, res) {
   var date = new Date().toISOString().substring(0,19)
@@ -322,9 +334,11 @@ router.route('/home/sugestoes').get(function(req, res) {
         
       Controller.getSugestoesPage(page, token)
         .then(response => {
-          if (currentPage > response.numPages) res.render('error', {error: err})
+          console.log(response.numPages)
+          //if (currentPage > response.numPages) res.render('error', {error: err})
           const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
-          res.render('sugestoes', { sugestoes: response.sugestoes, 
+          console.log(response)
+          res.render('sugestoes', { sugestoes: response.Sugestoes, 
                                   user: resp.dados, 
                                   prevIndex: prevPage, 
                                   nextIndex: nextPage });

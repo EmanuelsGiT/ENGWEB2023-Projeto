@@ -65,6 +65,16 @@ router.post('/api/inquiricoes', function(req, res) {
     })
 })
 
+router.post('/api/inquiricoes/:id', function(req, res) {
+  Inquiricoes.addFiliacao(req.params.id, req.body)
+    .then(dados => {
+      res.jsonp(dados)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na inserção da filiacao "})
+    })
+})
+
 // POST : de um comentario
 router.post('/api/posts/:id', function(req, res) {
   Posts.addComment(req.params.id, req.body)

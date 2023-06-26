@@ -60,5 +60,5 @@ def process_json_file(json_data, output_file_path):
     print(f"New data written to: {output_file_path}")
 
 # Example usage
-output_json_file = "inquiricoes.json"
+output_json_file = "src/data/inquiricoes.json"
 process_json_file(json_data, output_json_file)

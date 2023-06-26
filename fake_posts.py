@@ -7,7 +7,7 @@ fake = Faker()
 entries = []
 
 # Read IDs from "inquiricoes.json" file
-with open('src/inquiricoes.json', 'r') as file:
+with open('src/data/inquiricoes.json', 'r') as file:
     inquiricoes_data = json.load(file)
     ids = [entry['_id'] for entry in inquiricoes_data]
 
@@ -31,6 +31,6 @@ for _ in range(100):
 
 json_data = json.dumps(entries, indent=2)
 
-with open('src/posts.json', 'w') as file:
+with open('src/data/posts.json', 'w') as file:
     file.write(json_data)
 
