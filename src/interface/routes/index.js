@@ -304,6 +304,67 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   })
 })
 
+
+router.route('/home/sugestoes').get(function(req, res) {
+  var date = new Date().toISOString().substring(0,19)
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+
+    Controller.getCurrentUser(token)
+    .then(resp => {
+      var data = new Date().toISOString().substring(0,19)
+      
+      const page = req.query.page
+      if (page <= 0) res.render('error', {error: err})
+      const currentPage = parseInt(page) || 1;
+      const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+        
+      Controller.getSugestoesPage(page, token)
+        .then(response => {
+          if (currentPage > response.numPages) res.render('error', {error: err})
+          const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+          res.render('sugestoes', { sugestoes: response.sugestoes, 
+                                  user: resp.dados, 
+                                  prevIndex: prevPage, 
+                                  nextIndex: nextPage });
+        })
+        .catch(err => {
+          res.render('error', {error: err})
+        })
+      
+    })
+    .catch(err => {
+      console.log(err)
+      res.render('login') // pag erro login
+    })
+}).post(function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  Controller.newSugestao(token, req.body)
+  .then(response => {
+    res.redirect('/home/sugestoes')
+  })
+  .catch(err => {
+    res.render('error', {error: err})
+  })
+})
+
+
+router.get('/home/sugestoes/delete/:id', function(req, res) {
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+  Controller.deleteSugestao(req.params.id, token)
+    .then(response => {
+      res.redirect('/home/sugestoes')
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+});
+
 //router.get('/retrieveList/:id', function(req, res) {
 //  var data = new Date().toISOString().substring(0,19)
 //  axios.get(env.apiAccessPoint+"/inquiricoes/" + req.params.id)

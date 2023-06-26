@@ -181,3 +181,33 @@ module.exports.deletePostComment = (idP, idC, token) => {
                 return erro
             })    
 }
+
+module.exports.getSugestoesPage = (page, token) => {
+    return axios.get(env.apiAccessPoint+"/sugestoes?page=" + page + "&token=" + token)
+            .then(resposta => {
+                return resposta.data
+            })
+            .catch(erro => {
+                return erro
+            })     
+}
+
+module.exports.newSugestao = (token, body) => {
+    return axios.post(env.apiAccessPoint + "/sugestoes/" + "?token=" + token, body)
+            .then(resposta => {
+                return resposta.data
+            })
+            .catch(erro => {
+                return erro
+            })   
+}
+
+module.exports.deleteSugestao = (id, token) => {
+    return axios.delete(env.apiAccessPoint + "/sugestoes/" + id + "?token=" + token)
+            .then(resposta => {
+                return resposta.data
+            })
+            .catch(erro => {
+                return erro
+            })   
+}
