@@ -12,14 +12,6 @@ router.get('/', auth.verificaAcesso, function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
-/*
-router.get('/:id', auth.verificaAcesso, function(req, res){
-  User.getUser(req.params.id)
-    .then(dados => res.status(200).jsonp({dados: dados}))
-    .catch(e => res.status(500).jsonp({error: e}))
-})
-*/
-
 router.get('/profile', auth.verificaAcesso, function(req, res){
   const token = req.query.token || req.body.token;
   jwt.verify(token, 'EngWeb2023', (err, decoded) => {
@@ -27,13 +19,11 @@ router.get('/profile', auth.verificaAcesso, function(req, res){
       return res.status(401).json({ error: 'Invalid token' });
     }
     const userN = decoded.username; // Assuming the token contains the user ID
-    console.log(userN)
     User.getUserName(userN)
       .then(user => {
         if (!user) {
           return res.status(404).json({ error: 'User not found' });
         }
-        console.log(user)
         res.status(200).json({ dados: user });
       })
       .catch(error => {
@@ -88,20 +78,10 @@ router.post('/login', passport.authenticate('local'), function(req, res){
     "EngWeb2023",
     {expiresIn: 3600},
     function(e, token) {
-      console.log(token)
       if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
       else res.status(201).jsonp({token: token})
   });
 })
-
-//router.post('/logout', function(req, res) {
-//  res.clearCookie(req.query.token); 
-//  res.clearCookie(req.body.token);
-//  console.log("query.token " + req.query.token) 
-//  console.log("body.token" + req.body.token)
-//  console.log("auth limpo")
-//  res.status(200).send('Logout bem-sucedido');
-//});
 
 router.put('/:id', auth.verificaAcesso, function(req, res) {
   User.updateUser(req.params.id, req.body)

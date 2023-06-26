@@ -7,10 +7,8 @@ var Sugestoes = require('../controllers/sugestoes')
 // GET: os vários pedidos Inquiricoes
 router.get('/api/inquiricoes', function(req, res, next) {
   if(req.query.searchType && req.query.search){
-    console.log("pesquisaInquiricao")
     Inquiricoes.getPesquisa(req.query.searchType, req.query.search, parseInt(req.query.page)) 
       .then(response=>{
-        console.log(response.len)
         const numPages_ = Math.ceil(response.len / 10);
         res.jsonp({ inquiricoes: response.list, numPages: numPages_ })
       })
@@ -82,10 +80,8 @@ router.post('/api/posts/:id', function(req, res) {
 // GET: os vários pedidos Inquiricoes
 router.get('/api/posts', function(req, res, next) {
   if(req.query.searchType && req.query.search){
-    console.log("pesquisaPost")
     Posts.getPostPesquisa(req.query.searchType, req.query.search, parseInt(req.query.page)) 
       .then(response=>{
-        console.log(response.len)
         const numPages_ = Math.ceil(response.len / 10);
         res.jsonp({ posts: response.list, numPages: numPages_ })
       })
@@ -197,87 +193,5 @@ router.post('/api/sugestoes/', function(req, res) {
       res.render('error', {error: erro, message: "Erro na inserção de uma sugestao"})
     })
 })
-
-// GET: inquiricao
-//router.get('/api/inquiricoes/:username', function(req, res) {
-//  Inquiricoes.getInquiricaoUsername(req.params.username)
-//    .then(inquiricao => {
-//      res.jsonp(inquiricao)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção da inquiricao"})
-//    })
-//});
-//router.get('/api/inquiricoes', function(req, res, next) {
-//  Inquiricoes.getInquiricoes()
-//    .then(inquiricoes => {
-//      res.jsonp(inquiricoes)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
-//    })
-//});
-
-//router.get('/api/inquiricoes', function(req, res, next) {
-//  Inquiricoes.getInquiricoesPage(parseInt(req.query.page))
-//    .then(response => {
-//      Inquiricoes.getInquiricoesLen()
-//        .then(len => {
-//          const numPages_ = Math.ceil(len / 10);
-//          res.jsonp({ inquiricoes: response, numPages: numPages_ })
-//        })
-//        .catch(erro => {
-//          res.render('error', {error: erro, message: "Erro na obtenção da len das inquiricoes"})
-//        })
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção das inquiricoes"})
-//    })
-//});
-//
-//router.get('/api/categorias', function(req, res) {
-//  Lista.categorias()
-//    .then(lista => {
-//      res.jsonp(lista)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção das categorias"})
-//    })
-//});
-
-//router.get('/api/categorias/:id/produtos', function(req, res) {
-//  Lista.prodsByCateg(req.params.id)
-//    .then(lista => {
-//      res.jsonp(lista)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na obtenção das categorias"})
-//    })
-//});
-
-// POST: de um produto numa lista de compras
-
-//router.post('/api/inquiricoes/:id/produtos', function(req, res) {
-//  Lista.addProduto(req.params.id, req.body)
-//    .then(dados => {
-//      res.jsonp(dados)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na inserção de um produto"})
-//    })
-//})
-
-// DELETE de um produto numa lista de compras
-
-//router.delete('/api/inquiricoes/:id/produtos/:prod', function(req, res) {
-//  Lista.deleteProduto(req.params.id, req.params.prod)
-//    .then(dados => {
-//      res.jsonp(dados)
-//    })
-//    .catch(erro => {
-//      res.render('error', {error: erro, message: "Erro na inserção de um produto"})
-//    })
-//})
-
 
 module.exports = router;
