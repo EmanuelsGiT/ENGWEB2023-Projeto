@@ -18,12 +18,11 @@ router.get('/home/inquiricoes', function(req, res) {
   const currentPage = parseInt(page) || 1;
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   
-  
-  if(req.query.searchType && req.query.search) {
-    Controller.getInquiricoesSearchPage(req.query.searchType, req.query.search, page, token)
-      .then(response => {
-        Controller.getCurrentUser(token)
-          .then(response2 => {
+  Controller.getCurrentUser(token)
+    .then(resp => {
+      if(req.query.searchType && req.query.search) {
+        Controller.getInquiricoesSearchPage(req.query.searchType, req.query.search, page, token)
+          .then(response => {
             if (currentPage > response.numPages) res.render('error', {error: err})
             const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
             res.render('inquiricoesUser', { inquiricoes: response.inquiricoes, 
@@ -31,36 +30,29 @@ router.get('/home/inquiricoes', function(req, res) {
                                             nextIndex: nextPage,
                                             searcht: req.query.searchType,
                                             search: req.query.search,
-                                            user: response2.dados });
+                                            user: resp.dados });
           })
           .catch(err => {
             res.render('error', {error: err})
           })
-      })
-      .catch(err => {
-        res.render('error', {error: err})
-      })
-  } else {
-    Controller.getInquiricoesPage(page, token)
-      .then(response => {
-        Controller.getCurrentUser(token)
-          .then(response2 => {
+      } else {
+        Controller.getInquiricoesPage(page, token)
+          .then(response => {
             if (currentPage > response.numPages) res.render('error', {error: err})
             const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
             res.render('inquiricoesUser', { inquiricoes: response.inquiricoes, 
                                             prevIndex: prevPage, 
                                             nextIndex: nextPage,
-                                            user: response2.dados });
+                                            user: resp.dados });
           })
           .catch(err => {
             res.render('error', {error: err})
           })
-
-      })
-      .catch(err => {
-        res.render('error', {error: err})
-      })   
-  }
+      }
+    })
+    .catch(err => {
+      res.render('login') // pag erro login
+    })
 });
 
 router.route('/home/inquiricoes/newInquiricao')
@@ -86,18 +78,18 @@ router.get('/home/inquiricao/:id', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  Controller.getInquiricao(req.params.id, token)
+    Controller.getCurrentUser(token)
     .then(response => {
-      Controller.getCurrentUser(token)
+      Controller.getInquiricao(req.params.id, token)
         .then(response2 => {
-          res.render('inquiricao', { inquiricao: response, user: response2.dados, d: data });
+          res.render('inquiricao', { inquiricao: response2, user: response.dados, d: data });
         })
         .catch(err => {
-          res.render('error', {error: err})
+          res.render('error', {error: err}) 
         })
     })
     .catch(err => {
-      res.render('error', {error: err})
+      res.render('login')  // pag erro login
     })
 });
 
@@ -166,55 +158,61 @@ router.get('/home/perfil', function(req, res) {
       res.render('perfil', { user: response.dados, d: data });
     })
     .catch(err => {
-      res.render('error', {error: err})
+      res.render('login') // pag erro login
     })
 });
 
 router.get('/home', function(req, res) {
-  var data = new Date().toISOString().substring(0,19)
+  
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-
-  const page = req.query.page
-  if (page <= 0) res.render('error', {error: err})
-  const currentPage = parseInt(page) || 1;
-  const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   
-  if(req.query.searchType && req.query.search) {
-    Controller.getPostsSearchPage(req.query.searchType, req.query.search, page, token)
-      .then(response => {
-        if (currentPage > response.numPages) res.render('error', {error: err})
-        const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
-        res.render('homeUser', { posts: response.posts, 
-                                        prevIndex: prevPage, 
-                                        nextIndex: nextPage,
-                                        searcht: req.query.searchType,
-                                        search: req.query.search });
-      })
-      .catch(err => {
-        res.render('error', {error: err})
-      })
-  } else {
-    Controller.getPostsPage(page, token)
-      .then(response => {
-        if (currentPage > response.numPages) res.render('error', {error: err})
-        const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
-        Controller.getCurrentUser(token)
-          .then(resp => {
-            res.render('homeUser', { posts: response.posts, 
-                                   user: resp.dados, 
-                                   prevIndex: prevPage, 
-                                   nextIndex: nextPage });
+  Controller.getCurrentUser(token)
+    .then(resp => {
+      var data = new Date().toISOString().substring(0,19)
+      
+      const page = req.query.page
+      if (page <= 0) res.render('error', {error: err})
+      const currentPage = parseInt(page) || 1;
+      const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+
+      if(req.query.searchType && req.query.search) {
+        Controller.getPostsSearchPage(req.query.searchType, req.query.search, page, token)
+          .then(response => {
+            if (currentPage > response.numPages) res.render('error', {error: err})
+            console.log(response.numPages)
+            const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+            res.render('homeUser', { posts: response.posts,
+                                            user: resp.dados,
+                                            prevIndex: prevPage, 
+                                            nextIndex: nextPage,
+                                            searcht: req.query.searchType,
+                                            search: req.query.search });
           })
           .catch(err => {
             res.render('error', {error: err})
           })
-      })
-      .catch(err => {
-        res.render('error', {error: err})
-      })
-  }
+      } else {
+        Controller.getPostsPage(page, token)
+          .then(response => {
+            if (currentPage > response.numPages) res.render('error', {error: err})
+            const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
+            res.render('homeUser', { posts: response.posts, 
+                                    user: resp.dados, 
+                                    prevIndex: prevPage, 
+                                    nextIndex: nextPage });
+          })
+          .catch(err => {
+            res.render('error', {error: err})
+          })
+      }
+
+    })
+    .catch(err => {
+      console.log(err)
+      res.render('login') // pag erro login
+    })
 });
 
 router.get('/home/post/:idPost/delete/:idComment', function(req, res) {
@@ -249,18 +247,18 @@ router.route('/home/post/:id').get(function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  Controller.getPost(req.params.id, token)
+    Controller.getCurrentUser(token)
     .then(response => {
-      Controller.getCurrentUser(token)
+      Controller.getPost(req.params.id, token)
         .then(response2 => {
-          res.render('post', { post: response, user: response2.dados, d: data });
+          res.render('post', { post: response2, user: response.dados, d: data });
         })
         .catch(err => {
           res.render('error', {error: err})
         })
     })
     .catch(err => {
-      res.render('error', {error: err})
+      res.render('login') // pag erro login
     })
 }).post(function(req, res) {
   var token = ""
@@ -280,18 +278,18 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-  Controller.getInquiricao(req.params.id, token)
+    Controller.getCurrentUser(token)
     .then(response => {
-      Controller.getCurrentUser(token)
+      Controller.getInquiricao(req.params.id, token)
         .then(response2 => {
-          res.render('newPost', {inq: response, d:date, user: response2.dados});
+          res.render('newPost', {inq: response2, d:date, user: response.dados});
         })
         .catch(err => {
           res.render('error', {error: err})
         })
     })
     .catch(err => {
-      res.render('error', {error: err})
+      res.render('login') // pag erro login
     })
   }).post(function(req, res) {
   var token = ""
@@ -354,7 +352,7 @@ router.get('/home/logout', (req, res) => {
 })
 
 // Tratamento do Register
-router.get('/register', function(req, res){
+router.get('/home/admin/register', function(req, res){
   res.render('register')
 })
 
@@ -362,7 +360,7 @@ router.post('/register', function(req, res){
   Controller.addUser(req.body)
     .then(response => {
       //res.cookie('token', response.token)
-      res.redirect('/')
+      res.redirect('/home/admin')
     })
     .catch(e =>{
       res.render('error', {error: e, message: "Credenciais inválidas"})

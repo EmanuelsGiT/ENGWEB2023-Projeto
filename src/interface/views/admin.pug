@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Home
+    title Home/Admin
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
     link(rel='stylesheet' href='/stylesheets/w3-black.css')
@@ -18,7 +18,7 @@ html
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
           a.w3-bar-item.w3-button(href='/home/inquiricoes/newInquiricao') Adicionar inquiricão
-          a.w3-bar-item.w3-button(href='/register') Adicionar novo user
+          a.w3-bar-item.w3-button(href='/home/admin/register') Adicionar novo user
       h5.w3-padding-top-64(style="font-size: 5vmax;") Administração
       .w3-content
         each user in users
@@ -63,23 +63,23 @@ html
                             button.w3-bar-item.w3-green.w3-button.w3-right.w3-margin.w3-round-large(type="submit") Submit
                     footer.w3-container.w3-amber.w3-center
                       p
-                        | Powered by 
-                        a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+                        | Project made for 
+                        a(href='https://epl.di.uminho.pt/~jcr/AULAS/EngWeb2023/index.html' target='_blank') EngWeb
                         
       if users.length < 6
         .w3-bottom
           footer.w3-center
             .w3-container.w3-theme-l1
               p
-                | Powered by 
-                a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+                | Project made for 
+                a(href='https://epl.di.uminho.pt/~jcr/AULAS/EngWeb2023/index.html' target='_blank') EngWeb
 
       else
         .w3-display-bottom
           footer.w3-center
             .w3-container.w3-theme-l1
               p
-                | Powered by 
-                a(href='https://www.w3schools.com/w3css/default.asp' target='_blank') w3.css
+                | Project made for 
+                a(href='https://epl.di.uminho.pt/~jcr/AULAS/EngWeb2023/index.html' target='_blank') EngWeb
 
 
