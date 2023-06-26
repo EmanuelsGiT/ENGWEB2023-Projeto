@@ -6,12 +6,17 @@ fake = Faker()
 
 entries = []
 
+# Read IDs from "inquiricoes.json" file
+with open('src/inquiricoes.json', 'r') as file:
+    inquiricoes_data = json.load(file)
+    ids = [entry['_id'] for entry in inquiricoes_data]
+
 for _ in range(100):
     entry = {
         "nome": fake.first_name(),
         "descricao": fake.sentence(),
         "data": fake.iso8601(),
-        "registo": str(random.randint(1000000, 9999999)),
+        "registo": random.choice(ids),  # Select a random ID from the list of IDs
         "coments": []
     }
 
@@ -26,5 +31,6 @@ for _ in range(100):
 
 json_data = json.dumps(entries, indent=2)
 
-with open('entries.json', 'w') as file:
+with open('src/posts.json', 'w') as file:
     file.write(json_data)
+
