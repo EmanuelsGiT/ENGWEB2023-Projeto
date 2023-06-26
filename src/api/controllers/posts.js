@@ -1,7 +1,6 @@
 var Post = require('../models/posts')
 const mongoose = require('mongoose')
 
-//.sort({data:-1})
 module.exports.getPosts = () => {
     return Post
             .find()
@@ -151,46 +150,3 @@ module.exports.deleteComment = (idPost, idComment) => {
                 return erro
             })
 }
-
-
-//module.exports.categorias = () => {
-//    return Post.distinct("produtos.categoria")
-//            .then(resposta => {
-//                return resposta
-//            })
-//            .catch(erro => {
-//                return erro
-//            })
-//}
-//
-//module.exports.prodsByCateg = (id) => {
-//    return Post.aggregate([{$unwind: "$produtos"}, {$match: {"produtos.categoria": id}}, {$project: {"produtos.designacao":1, _id:0}}])
-//            .then(resposta => {
-//                return resposta
-//            })
-//            .catch(erro => {
-//                return erro
-//            })
-//}
-//
-//module.exports.addProduto = (id, prod) => {
-//    return Post.updateOne({_id:id}, 
-//                { $push: { "produtos": prod } })
-//            .then(resposta => {
-//                return resposta
-//            })
-//            .catch(erro => {
-//                return erro
-//            })
-//}
-//
-//module.exports.deleteProduto = (id, prod) => {
-//    return Post.updateOne({ "_id": id }, 
-//                { $pull: {"produtos": {_id: prod}}})
-//            .then(resposta => {
-//                return resposta
-//            })
-//            .catch(erro => {
-//                return erro
-//            })
-//}
