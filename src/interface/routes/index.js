@@ -327,6 +327,37 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   })
 })
 
+router.route('/home/inquiricao/:id/editinquiricao').get(function(req,res) {
+  var date = new Date().toISOString().substring(0,19)
+  var token = ""
+  if(req.cookies && req.cookies.token)
+    token = req.cookies.token
+    Controller.getCurrentUser(token)
+    .then(response => {
+      Controller.getInquiricao(req.params.id, token)
+        .then(response2 => {
+          res.render('editInquiricao', {inq: response2, d:date, user: response.dados});
+        })
+        .catch(err => {
+          res.render('error', {error: err})
+        })
+    })
+    .catch(err => {
+      res.render('login') // pag erro login
+    })
+  }).post(function(req, res) {
+    var token = ""
+    if(req.cookies && req.cookies.token)
+      token = req.cookies.token
+    Controller.editInquiricao(token, req.params.id, req.body)
+    .then(response => {
+      res.redirect('/home/inquiricao/' + req.params.id)
+    })
+    .catch(err => {
+      res.render('error', {error: err})
+    })
+})
+
 router.route('/home/inquiricao/:id/filiacao').post(function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)

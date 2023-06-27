@@ -44,6 +44,17 @@ router.get('/api/inquiricoes/:id', function(req, res) {
     })
 });
 
+// Update Inquiricao
+router.put('/api/inquiricoes/:id', function(req, res) {
+  Inquiricoes.updateInquiricao(req.params.id, req.body)
+    .then(inquiricao => {
+      res.jsonp(inquiricao)
+    })
+    .catch(erro => {
+      res.render('error', {error: erro, message: "Erro na obtenção da inquiricao"})
+    })
+});
+
 router.delete('/api/inquiricoes/:idInq', function(req, res) {
   Inquiricoes.deleteInquiricao(req.params.idInq)
     .then(dados => {

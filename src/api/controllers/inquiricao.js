@@ -152,8 +152,8 @@ module.exports.addFiliacao = (id, filiacao) => {
                 });
 }
 
-module.exports.updateInquiricao = l => {
-    return Inquiricao.updateOne({_id:l._id}, l)
+module.exports.updateInquiricao = (id, info) => {
+    return Inquiricao.updateOne({_id:id}, info)
             .then(resposta => {
                 return resposta
             })

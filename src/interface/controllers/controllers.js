@@ -92,6 +92,16 @@ module.exports.newInquiricao = (token, body) => {
             })   
 }
 
+module.exports.editInquiricao = (token, id, body) => {
+    return axios.put(env.apiAccessPoint+'/inquiricoes/' + id + "?token=" + token, body)
+            .then(resposta => {
+                return resposta.data
+            })
+            .catch(erro => {
+                return erro
+            })
+}
+
 module.exports.newFiliacao = (token, id, body) => {
     return axios.post(env.apiAccessPoint + "/inquiricoes/" + id + "?token=" + token, body)
             .then(resposta => {
