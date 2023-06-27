@@ -327,7 +327,7 @@ router.route('/home/inquiricao/:id/newpost').get(function(req,res) {
   })
 })
 
-router.route('/home/inquiricao/:id/editinquiricao').get(function(req,res) {
+router.route('/home/inquiricao/:id/editInquiricao').get(function(req,res) {
   var date = new Date().toISOString().substring(0,19)
   var token = ""
   if(req.cookies && req.cookies.token)
