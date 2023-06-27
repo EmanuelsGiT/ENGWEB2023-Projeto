@@ -24,4 +24,5 @@ Docker:
 
     mongoimport --db Project --collection users --file /data/db/users.json --jsonArray &&
     mongoimport --db Project --collection inquiricoes --file /data/db/inquiricoes.json --jsonArray &&
-    mongoimport --db Project --collection posts --file /data/db/posts.json --jsonArray
+    mongoimport --db Project --collection posts --file /data/db/posts.json --jsonArray &&
+    mongoimport --db Project --collection sugestoes --file /data/db/sugestoes.json --jsonArray

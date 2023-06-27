@@ -41,6 +41,7 @@ services:
       - ./data/inquiricoes.json:/data/db/inquiricoes.json
       - ./data/users.json:/data/db/users.json
       - ./data/posts.json:/data/db/posts.json
+      - ./data/sugestoes.json:/data/db/sugestoes.json
     
     networks:
       - projectnet
