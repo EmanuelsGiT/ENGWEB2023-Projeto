@@ -148,19 +148,42 @@ router.get('/home/user/update/:id', function(req,res) {
     })
 })
 
-router.get('/home/perfil', function(req, res) {
-  var data = new Date().toISOString().substring(0,19)
-  var token = ""
-  if(req.cookies && req.cookies.token)
-    token = req.cookies.token
-  Controller.getCurrentUser(token)
-    .then(response => {
-      res.render('perfil', { user: response.dados, d: data });
-    })
-    .catch(err => {
-      res.render('login') // pag erro login
-    })
-});
+router.route('/home/perfil')
+  .get(function(req, res) {
+    var data = new Date().toISOString().substring(0,19)
+    var token = ""
+    if(req.cookies && req.cookies.token)
+      token = req.cookies.token
+    Controller.getCurrentUser(token)
+      .then(response => {
+        res.render('perfil', { user: response.dados, d: data });
+      })
+      .catch(err => {
+        res.render('login') // pag erro login
+      })
+  })
+  .post(function(req, res) {
+    var data = new Date().toISOString().substring(0,19)
+    var token = ""
+    if(req.cookies && req.cookies.token)
+      token = req.cookies.token
+
+    Controller.getCurrentUser(token)
+      .then(response => {
+        console.log(response.dados._id)
+        Controller.updateUser(token, response.dados._id, req.body)
+          .then(response => {
+            res.redirect('/home/perfil')
+          })
+          .catch(err => {
+            res.render('error', {error: err})
+          })
+      })
+      .catch(err => {
+        res.render('login') // pag erro login
+      })
+    
+})
 
 router.get('/home', function(req, res) {
   

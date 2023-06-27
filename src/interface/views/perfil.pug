@@ -16,11 +16,14 @@ html
           a.w3-bar-item.w3-button(href='/home') Posts
           a.w3-bar-item.w3-button(href='/home/inquiricoes') Inquirições
           a.w3-bar-item.w3-button.w3-right(href='/home/logout') Log out
+          a.w3-bar-item.w3-button.w3-right(href='/home/sugestoes') Sugestões
+          if user.level == 'admin'
+            a.w3-bar-item.w3-button.w3-right(href='/home/admin') Administração
       h5.w3-padding-top-64(style="font-size: 5vmax;") Perfil
       .w3-content
           .w3-row
             .w3-card.w3-round-xlarge.post-box.w3-hover-shadow.w3-panel.w3-padding-16
-                form.w3-padding-bottom-64(action='/perfil', method='POST')
+                form.w3-padding-bottom-64(action='/home/perfil', method='POST')
                     p.div(style="font-size: 1vmax;")
                       strong Nome: 
                     input.w3-input.w3-bar-item.w3-round-xlarge(name='nome', type='text', placeholder=user.username, readonly)
@@ -29,13 +32,10 @@ html
                     input.w3-input.w3-bar-item.w3-round-xlarge(name='email', type='text', placeholder=user.email, readonly)
                     p.div(style="font-size: 1vmax;")
                       strong Nova password: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='pass', type='password', placeholder='password')
-                    p.div(style="font-size: 1vmax;")
-                      strong Confirmar password: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='npass', type='password', placeholder='password')
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='password', type='password', placeholder='password')
                     p.div(style="font-size: 1vmax;")
                       strong Filiação: 
-                    input.w3-input.w3-bar-item.w3-round-xlarge(name='filiacao', type='text', placeholder=user.filiacao, readonly)
+                    input.w3-input.w3-bar-item.w3-round-xlarge(name='filiacao', type='text', placeholder=user.filiacao)
                     p.div(style="font-size: 1vmax;")
                       strong Nível: 
                     input.w3-input.w3-bar-item.w3-round-xlarge(name='nivel', type='text', placeholder=user.level, readonly)

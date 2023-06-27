@@ -41,15 +41,15 @@ module.exports.addUser = body => {
             })
 }
 
-//module.exports.updateUser = (id, token) => {
-//    return axios.delete(env.authAccessPoint+'/' + id + "?token=" + token)
-//            .then(resposta => {
-//                return resposta.data
-//            })
-//            .catch(erro => {
-//                return erro
-//            })
-//}
+module.exports.updateUser = (token, id, body) => {
+    return axios.put(env.authAccessPoint+'/' + id + "?token=" + token, body)
+            .then(resposta => {
+                return resposta.data
+            })
+            .catch(erro => {
+                return erro
+            })
+}
 
 module.exports.deleteUser = (id, token) => {
     return axios.delete(env.authAccessPoint+'/' + id + "?token=" + token)
