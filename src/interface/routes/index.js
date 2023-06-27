@@ -341,7 +341,8 @@ router.route('/home/sugestoes').get(function(req, res) {
           res.render('sugestoes', { sugestoes: response.Sugestoes, 
                                   user: resp.dados, 
                                   prevIndex: prevPage, 
-                                  nextIndex: nextPage });
+                                  nextIndex: nextPage,
+                                  current: currentPage });
         })
         .catch(err => {
           res.render('error', {error: err})

@@ -9,4 +9,4 @@ var sugestaoSchema = new mongoose.Schema({
     data: String,
 });
 
-module.exports = mongoose.model('sugestao', sugestaoSchema)
+module.exports = mongoose.model('sugestoes', sugestaoSchema)
