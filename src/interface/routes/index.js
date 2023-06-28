@@ -33,7 +33,8 @@ router.get('/home/inquiricoes', function(req, res) {
                                             user: resp.dados });
           })
           .catch(err => {
-            res.render('error', {error: err})
+            res.render('inquiricoesUser', {error: err,
+                                           user: resp.dados})
           })
       } else {
         Controller.getInquiricoesPage(page, token)
@@ -46,7 +47,8 @@ router.get('/home/inquiricoes', function(req, res) {
                                             user: resp.dados });
           })
           .catch(err => {
-            res.render('error', {error: err})
+            res.render('inquiricoesUser', {error: err,
+                                          user: resp.dados})
           })
       }
     })
@@ -214,11 +216,12 @@ router.get('/home', function(req, res) {
                                             search: req.query.search });
           })
           .catch(err => {
-            res.render('error', {error: err})
+            res.render('homeUser', {error: err,
+                                    user: resp.dados})
           })
       } else {
         Controller.getPostsPage(page, token)
-          .then(response => {
+          .then(response => { 
             if (currentPage > response.numPages) res.render('error', {error: err})
             const nextPage = currentPage < response.numPages ? currentPage + 1 : currentPage;
             res.render('homeUser', { posts: response.posts, 
@@ -227,7 +230,8 @@ router.get('/home', function(req, res) {
                                     nextIndex: nextPage });
           })
           .catch(err => {
-            res.render('error', {error: err})
+            res.render('homeUser', {error: err,
+                                    user: resp.dados})
           })
       }
 
@@ -469,7 +473,7 @@ router.post('/login', function(req, res){
       res.redirect('/home')
     })
     .catch(e =>{
-      res.render('error', {error: e, message: "Credenciais inválidas"})
+      res.render('login', {error: e})
     })
 })
 
