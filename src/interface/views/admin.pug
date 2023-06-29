@@ -36,10 +36,10 @@ html
                         span.w3-button.w3-display-topright(onclick=`document.getElementById('${user.username}').style.display='none'`) &times;
                         h2 #{user.username}
                     .w3-container
-                        form.w3-padding-bottom-64(action='/perfil', method='POST')
+                        form.w3-padding-bottom-64(action=`/home/admin/user/${user._id}`, method='POST')
                             p.div(style="font-size: 1vmax;")
                               strong Nome: 
-                            input.w3-input.w3-bar-item.w3-round-xlarge(name='nome', type='text', placeholder=user.username)
+                            input.w3-input.w3-bar-item.w3-round-xlarge(name='nome', type='text', placeholder=user.username, readonly)
                             p.div(style="font-size: 1vmax;")
                               strong Email: 
                             input.w3-input.w3-bar-item.w3-round-xlarge(name='email', type='text', placeholder=user.email)
