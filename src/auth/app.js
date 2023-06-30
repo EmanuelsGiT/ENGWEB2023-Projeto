@@ -9,7 +9,7 @@ require('dotenv').config();
 
 var mongoDB = 'mongodb://127.0.0.1/Project';
 //process.env.MONGODB_URL
-mongoose.connect(process.env.MONGODB_URL, 
+mongoose.connect(mongoDB, 
       { useNewUrlParser: true,
         useUnifiedTopology: true,
         serverSelectionTimeoutMS: 5000});

@@ -172,7 +172,7 @@ router.route('/home/perfil')
 
     Controller.getCurrentUser(token)
       .then(response => {
-        console.log(response.dados._id)
+        console.log("post homeperfil")
         Controller.updateUser(token, response.dados._id, req.body)
           .then(response => {
             res.redirect('back')
@@ -192,7 +192,7 @@ router.post('/home/admin/user/:id', function(req, res) {
   var token = ""
   if(req.cookies && req.cookies.token)
     token = req.cookies.token
-
+  
   Controller.getUser(req.params.id, token)
     .then(response => {
       console.log(response.dados._id)
@@ -205,7 +205,7 @@ router.post('/home/admin/user/:id', function(req, res) {
         })
     })
     .catch(err => {
-      res.render('login') // pag erro login
+      res.redirect('/home/admin') // pag erro login
     })
   
 })
