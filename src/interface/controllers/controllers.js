@@ -22,7 +22,7 @@ module.exports.getUsers = token => {
 }
 
 module.exports.getUser = (id,token)=> {
-    return axios.get(env.authAccessPoint+'/' + id + "?token=" + token)
+    return axios.get(env.authAccessPoint+'/user/' + id + "?token=" + token)
             .then(resposta => {
                 return resposta.data
             })
